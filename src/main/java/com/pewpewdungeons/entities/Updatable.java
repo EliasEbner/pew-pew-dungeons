@@ -1,4 +1,4 @@
-package com.pewpewdungeons.core;
+package com.pewpewdungeons.entities;
 
 public interface Updatable {
     void update();

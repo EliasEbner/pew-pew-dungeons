@@ -1,8 +1,10 @@
 package com.pewpewdungeons.core;
 
+import com.pewpewdungeons.entities.Updatable;
 import com.raylib.Raylib;
 
 public class GameLoop {
+
     private final Updatable root;
 
     public GameLoop(Updatable root) {
