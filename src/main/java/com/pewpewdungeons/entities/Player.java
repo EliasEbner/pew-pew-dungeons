@@ -58,4 +58,8 @@ public class Player extends GameObject implements Movable {
     public void update() {
         this.move();
     }
+
+    public Vector2 getPosition() {
+        return this.position;
+    }
 }
