@@ -1,5 +1,5 @@
 package com.pewpewdungeons.entities;
 
 public interface Updatable {
-    void update();
+    void update(float dt);
 }

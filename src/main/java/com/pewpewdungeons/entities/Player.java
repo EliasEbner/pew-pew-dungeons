@@ -6,6 +6,8 @@ import com.pewpewdungeons.items.RangeWeapon;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.physics.rigidBody.RecRigidBody;
+import com.pewpewdungeons.projectiles.BulletProjectile;
+import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Player extends GameObject implements Movable {
     }
 
     @Override
-    public void move() {
+    public void move(float dt) {
         float dx = 0;
         float dy = 0;
         float v = this.speed * Raylib.GetFrameTime();
@@ -49,10 +51,20 @@ public class Player extends GameObject implements Movable {
         if (Raylib.IsKeyDown(KEY_S)) dy += v;
 
         this.position.add(dx, dy);
+
+        if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            Vector2 pos = new Vector2(this.position);
+            Vector2 dir = Main.getMouseWorldPosition();
+            dir.sub(this.position);
+            dir.normalize();
+            dir.mul(20);
+
+            ProjectileSystem.createProjectile(new BulletProjectile(pos, dir));
+        }
     }
 
     @Override
-    public void update() {
-        this.move();
+    public void update(float dt) {
+        this.move(dt);
     }
 }

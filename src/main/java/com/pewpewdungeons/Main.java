@@ -4,6 +4,8 @@ import static com.raylib.Jaylib.BLACK;
 import static com.raylib.Raylib.*;
 
 import com.pewpewdungeons.entities.Player;
+import com.pewpewdungeons.projectiles.Projectile;
+import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.pewpewdungeons.world.Dungeon;
 import com.raylib.Raylib;
 
@@ -66,7 +68,7 @@ public final class Main {
             }
             nativeCamera.zoom(cameraZoom);
 
-            // Get mouse position on screen and in world.
+            // Get screen and world-space position of mouse.
             {
                 Raylib.Vector2 pos = Raylib.GetMousePosition();
                 Raylib.Vector2 posWS = GetScreenToWorld2D(pos, nativeCamera);
@@ -82,8 +84,10 @@ public final class Main {
             float deltaTime = Raylib.GetFrameTime();
 
             // Update.
-            dungeon.update();
-            player.update();
+            dungeon.update(deltaTime);
+            ProjectileSystem.update(deltaTime);
+            player.update(deltaTime);
+
 
             // Draw.
             BeginDrawing();
@@ -92,6 +96,7 @@ public final class Main {
             BeginMode2D(nativeCamera);
 
                 dungeon.draw();
+                ProjectileSystem.draw();
                 player.draw();
 
             EndMode2D();

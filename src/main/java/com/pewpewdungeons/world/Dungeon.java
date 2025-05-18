@@ -16,8 +16,8 @@ public final class Dungeon implements Drawable, Updatable {
 
     // ───────────────── engine hooks ──────────────────
     @Override
-    public void update() {
-        objects.forEach(GameObject::update);
+    public void update(float dt) {
+        objects.forEach(o -> o.update(dt));
     }
 
     @Override

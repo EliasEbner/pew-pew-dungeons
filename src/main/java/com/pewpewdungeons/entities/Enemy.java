@@ -18,5 +18,5 @@ public class Enemy extends GameObject implements AutoMovable {
     public void draw() {}
 
     @Override
-    public void update() {}
+    public void update(float dt) {}
 }

@@ -1,5 +1,5 @@
 package com.pewpewdungeons.core;
 
 public interface Movable {
-    void move();
+    void move(float dt);
 }

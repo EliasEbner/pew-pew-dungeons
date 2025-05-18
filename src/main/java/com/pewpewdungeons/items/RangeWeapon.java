@@ -1,7 +1,7 @@
 package com.pewpewdungeons.items;
 
-import com.pewpewdungeons.entities.Projectile;
+//import com.pewpewdungeons.entities.Projectile;
 
 public interface RangeWeapon {
-    void shoot(Projectile projectile);
+    //void shoot(Projectile projectile);
 }
