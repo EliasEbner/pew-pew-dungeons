@@ -7,15 +7,10 @@
     <list default="true" id="beca9c1b-5fa7-4285-b066-f451419d87ad" name="Changes" comment="Pew-Pew-Dungeons - Create maven project and include jaylib as dependency">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Vector2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Vector2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Movable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Movable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Projectile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Updatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Updatable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/Gun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/Gun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/RangeWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/RangeWeapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/world/Dungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/world/Dungeon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/projectiles/BulletProjectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/projectiles/BulletProjectile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +112,7 @@
       <option name="presentableId" value="Default" />
       <updated>1747162885051</updated>
       <workItem from="1747162886132" duration="2751000" />
-      <workItem from="1747583193145" duration="11854000" />
+      <workItem from="1747583193145" duration="13592000" />
     </task>
     <task id="LOCAL-00001" summary="Pew-Pew-Dungeons - Create maven project and include jaylib as dependency">
       <option name="closed" value="true" />

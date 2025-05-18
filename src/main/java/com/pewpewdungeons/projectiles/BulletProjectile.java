@@ -25,6 +25,7 @@ public class BulletProjectile extends Projectile {
         super.update(dt);
         moveBy(velocity.x * dt, velocity.y * dt);
 
+        // TODO: This is debug.
         if (this.t > 1) ProjectileSystem.removeProjectile(this);
     }
 }

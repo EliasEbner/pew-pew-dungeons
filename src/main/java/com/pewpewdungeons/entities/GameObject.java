@@ -11,4 +11,5 @@ public abstract class GameObject implements Drawable, Updatable {
     protected float speed;
 
     public Vector2 getPosition() { return position; }
+    public Vector2 getCenterPosition() { return new Vector2(position.x + size.x/2, position.y + size.y/2); }
 }

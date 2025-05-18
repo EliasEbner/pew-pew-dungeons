@@ -1,7 +1,9 @@
 package com.pewpewdungeons.entities;
 
 import com.pewpewdungeons.Main;
+import com.pewpewdungeons.core.Drawable;
 import com.pewpewdungeons.core.Movable;
+import com.pewpewdungeons.items.Gun;
 import com.pewpewdungeons.items.RangeWeapon;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
 import com.pewpewdungeons.Vector2;
@@ -20,6 +22,7 @@ public class Player extends GameObject implements Movable {
     private double mana;
     private RecRigidBody rigidBody;
     private PlayerInventory inventory;
+    private RangeWeapon equippedWeapon = new Gun(new Vector2(0.25f, 0.5f), 1.2f, this);
 
     public Player(double health, double mana, Vector2 position, Vector2 size, float speed) {
         this.health = health;
@@ -33,9 +36,11 @@ public class Player extends GameObject implements Movable {
 
     @Override
     public void draw() {
-        try (Raylib.Vector2 raylibPositionVector = this.position.toNative()) {
-            Raylib.DrawRectangleV(raylibPositionVector, this.size.toNative(), Jaylib.RED);
+        try (Raylib.Vector2 rPosition = this.position.toNative()) {
+            Raylib.DrawRectangleV(rPosition, this.size.toNative(), Jaylib.RED);
         }
+        if (equippedWeapon != null)
+            if (equippedWeapon instanceof Drawable d) d.draw();
     }
 
     @Override
@@ -53,18 +58,14 @@ public class Player extends GameObject implements Movable {
         this.position.add(dx, dy);
 
         if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            Vector2 pos = new Vector2(this.position);
-            Vector2 dir = Main.getMouseWorldPosition();
-            dir.sub(this.position);
-            dir.normalize();
-            dir.mul(20);
-
-            ProjectileSystem.createProjectile(new BulletProjectile(pos, dir));
+            equippedWeapon.shoot();
         }
     }
 
     @Override
     public void update(float dt) {
         this.move(dt);
+        if (equippedWeapon != null)
+            if (equippedWeapon instanceof Updatable u) u.update(dt);
     }
 }

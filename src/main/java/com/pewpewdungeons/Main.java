@@ -15,7 +15,7 @@ public final class Main {
     static Vector2 mouseWorldPosition;
 
     public static Vector2 getMousePosition() { return mousePosition; }
-    public static Vector2 getMouseWorldPosition() { return mouseWorldPosition; }
+    public static Vector2 getMouseWorldPosition() { return new Vector2(mouseWorldPosition); }
 
     public static void main(String[] args) {
         int screenWidth = 1280;
