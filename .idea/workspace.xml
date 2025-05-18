@@ -5,33 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="beca9c1b-5fa7-4285-b066-f451419d87ad" name="Changes" comment="Pew-Pew-Dungeons - Create maven project and include jaylib as dependency">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/ai/EnemyBehaviour.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/AutoMovable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Drawable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/GameLoop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Movable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Scene.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Updatable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Enemy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/GameObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Projectile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/events/DamageEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/events/DeathEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/events/PickupEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/Gun.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/Inventory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/items/RangeWeapon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/Collidable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/RigidBody.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/Vector2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/world/Dungeon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/GameLoop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/core/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/entities/Projectile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/Vector2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/Vector2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/rigidBody/RecRigidBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/rigidBody/RecRigidBody.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/rigidBody/RigidBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pewpewdungeons/physics/rigidBody/RigidBody.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,29 +38,77 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2x3NdRuLn5kqHObdeWmys1OIzkX" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.MainOSX.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.MainOSX">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-23" />
+      <option name="MAIN_CLASS_NAME" value="com.pewpewdungeons.Main" />
+      <module name="pew-pew-dungeons" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pewpewdungeons.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainOSX" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.pewpewdungeons.Main" />
+      <module name="pew-pew-dungeons" />
+      <option name="PROGRAM_PARAMETERS" value="-screenWidth 2000 -screenHeight 1280" />
+      <option name="VM_PARAMETERS" value="-XstartOnFirstThread" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MainOSX" />
+      <item itemvalue="Application.Main" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,6 +118,7 @@
       <option name="presentableId" value="Default" />
       <updated>1747162885051</updated>
       <workItem from="1747162886132" duration="2751000" />
+      <workItem from="1747583193145" duration="8153000" />
     </task>
     <task id="LOCAL-00001" summary="Pew-Pew-Dungeons - Create maven project and include jaylib as dependency">
       <option name="closed" value="true" />

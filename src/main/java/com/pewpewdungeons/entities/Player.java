@@ -1,19 +1,16 @@
 package com.pewpewdungeons.entities;
 
-import static com.raylib.Raylib.KEY_A;
-import static com.raylib.Raylib.KEY_D;
-import static com.raylib.Raylib.KEY_S;
-import static com.raylib.Raylib.KEY_W;
-
+import com.pewpewdungeons.Main;
 import com.pewpewdungeons.core.Movable;
 import com.pewpewdungeons.items.RangeWeapon;
-import com.pewpewdungeons.items.inventory.Inventory;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
-import com.pewpewdungeons.physics.Vector2;
+import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.physics.rigidBody.RecRigidBody;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
+
+import static com.raylib.Raylib.*;
 
 public class Player extends GameObject implements Movable {
 
@@ -22,7 +19,7 @@ public class Player extends GameObject implements Movable {
     private RecRigidBody rigidBody;
     private PlayerInventory inventory;
 
-    public Player(double health, double mana, Vector2 position, Vector2 size, int speed) {
+    public Player(double health, double mana, Vector2 position, Vector2 size, float speed) {
         this.health = health;
         this.mana = mana;
         this.position = position;
@@ -41,25 +38,21 @@ public class Player extends GameObject implements Movable {
 
     @Override
     public void move() {
-        if (Raylib.IsKeyDown(KEY_A)) {
-            this.position.sub(this.speed * Raylib.GetFrameTime(), 0);
-        } else if (Raylib.IsKeyDown(KEY_D)) {
-            this.position.add(this.speed * Raylib.GetFrameTime(), 0);
-        }
+        float dx = 0;
+        float dy = 0;
+        float v = this.speed * Raylib.GetFrameTime();
 
-        if (Raylib.IsKeyDown(KEY_W)) {
-            this.position.sub(0, this.speed * Raylib.GetFrameTime());
-        } else if (Raylib.IsKeyDown(KEY_S)) {
-            this.position.add(0, this.speed * Raylib.GetFrameTime());
-        }
+        if (Raylib.IsKeyDown(KEY_A)) dx -= v;
+        if (Raylib.IsKeyDown(KEY_D)) dx += v;
+
+        if (Raylib.IsKeyDown(KEY_W)) dy -= v;
+        if (Raylib.IsKeyDown(KEY_S)) dy += v;
+
+        this.position.add(dx, dy);
     }
 
     @Override
     public void update() {
         this.move();
-    }
-
-    public Vector2 getPosition() {
-        return this.position;
     }
 }

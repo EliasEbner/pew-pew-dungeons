@@ -1,9 +1,8 @@
 package com.pewpewdungeons.entities;
 
 import com.pewpewdungeons.core.AutoMovable;
-import com.pewpewdungeons.physics.Vector2;
+import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.physics.rigidBody.RigidBody;
-import com.raylib.Raylib;
 
 public class Projectile extends GameObject implements AutoMovable {
 

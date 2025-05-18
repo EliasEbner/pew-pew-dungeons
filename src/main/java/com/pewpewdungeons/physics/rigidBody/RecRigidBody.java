@@ -1,6 +1,6 @@
 package com.pewpewdungeons.physics.rigidBody;
 
-import com.pewpewdungeons.physics.Vector2;
+import com.pewpewdungeons.Vector2;
 
 public class RecRigidBody extends RigidBody {
 

@@ -1,4 +1,4 @@
-package com.pewpewdungeons.physics;
+package com.pewpewdungeons;
 
 import com.raylib.Raylib;
 
@@ -18,29 +18,24 @@ import com.raylib.Raylib;
  */
 public class Vector2 {
 
-    private float x;
-    private float y;
+    public static final Vector2 ZERO   = new Vector2(0f, 0f);
+    public static final Vector2 ONE    = new Vector2(1f, 1f);
+    public static final Vector2 X_AXIS = new Vector2(1f, 0f);
+    public static final Vector2 Y_AXIS = new Vector2(0f, 1f);
+
+    public float x;
+    public float y;
+
+    public Vector2() { x = y = 0; }
 
     public Vector2(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    // ─────────────────────────── constants ────────────────────────────
-    public static final Vector2 ZERO = new Vector2(0f, 0f);
-    public static final Vector2 ONE = new Vector2(1f, 1f);
-    public static final Vector2 UNIT_X = new Vector2(1f, 0f);
-    public static final Vector2 UNIT_Y = new Vector2(0f, 1f);
-
-    // ───────────────────────── basic algebra ──────────────────────────
-    public void addV(Vector2 v) {
-        this.x += v.x;
-        this.y += v.y;
-    }
-
-    public void subV(Vector2 v) {
-        this.x -= v.x;
-        this.y -= v.y;
+    public Vector2(Vector2 v) {
+        this.x = v.x;
+        this.y = v.y;
     }
 
     public void add(float x, float y) {
@@ -48,14 +43,24 @@ public class Vector2 {
         this.y += y;
     }
 
+    public void add(Vector2 v) {
+        this.x += v.x;
+        this.y += v.y;
+    }
+
     public void sub(float x, float y) {
         this.x -= x;
         this.y -= y;
     }
 
+    public void sub(Vector2 v) {
+        this.x -= v.x;
+        this.y -= v.y;
+    }
+
     public void mul(float s) {
         this.x *= s;
-        this.y *= y;
+        this.y *= s;
     }
 
     public void div(float s) {
@@ -63,13 +68,24 @@ public class Vector2 {
         this.y /= s;
     }
 
-    // ─────────────────────── vector properties ───────────────────────
-    public float lengthSq() {
+    public float lengthSquared() {
         return x * x + y * y;
     }
 
     public float length() {
-        return (float) Math.sqrt(lengthSq());
+        return (float) Math.sqrt(lengthSquared());
+    }
+
+    public float angle(Vector2 v) {
+        return (float)Math.acos(this.dot(v) / (length() * v.length()));
+    }
+
+    public void normalize() {
+        float len = length();
+        if (len != 0.0f) {
+            this.x /= len;
+            this.y /= len;
+        }
     }
 
     public Vector2 normalized() {
@@ -83,7 +99,9 @@ public class Vector2 {
     }
 
     public float distanceSq(Vector2 v) {
-        return new Vector2(this.x - v.x, this.y - v.y).lengthSq();
+        float dx = v.x - x;
+        float dy = v.y - y;
+        return dx*dx + dy*dy;
     }
 
     public float distance(Vector2 v) {
