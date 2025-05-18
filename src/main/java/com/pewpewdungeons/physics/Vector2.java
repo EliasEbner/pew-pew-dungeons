@@ -74,7 +74,8 @@ public class Vector2 {
 
     public Vector2 normalized() {
         float len = length();
-        return len == 0f ? ZERO : div(len);
+        if (len == 0f) return ZERO;
+        return new Vector2(this.x / len, this.y / len);
     }
 
     public float dot(Vector2 v) {
