@@ -17,17 +17,21 @@ public class RectangleCollider extends Collider {
         float dx = Math.abs(rectCenter.x - circleCenter.x);
         float dy = Math.abs(rectCenter.y - circleCenter.y);
 
-        if (dx > (size.x/2 + radius)) return false;
-        if (dy > (size.y/2 + radius)) return false;
+        if (dx > (size.x / 2 + radius))
+            return false;
+        if (dy > (size.y / 2 + radius))
+            return false;
 
-        if (dx <= size.x/2) return true;
-        if (dy <= size.y/2) return true;
+        if (dx <= size.x / 2)
+            return true;
+        if (dy <= size.y / 2)
+            return true;
 
         // Distance to corner.
-        dx -= size.x/2;
-        dy -= size.y/2;
+        dx -= size.x / 2;
+        dy -= size.y / 2;
 
-        return (dx*dx + dy*dy) <= radius*radius;
+        return (dx * dx + dy * dy) <= radius * radius;
     }
 
     @Override
@@ -43,8 +47,10 @@ public class RectangleCollider extends Collider {
         float by1 = b.position.y + b.size.y;
 
         // Quick cull.
-        if (ax0 > bx1 || bx0 > ax1) return false;
-        if (ay0 > by1 || by0 > ay1) return false;
+        if (ax0 > bx1 || bx0 > ax1)
+            return false;
+        if (ay0 > by1 || by0 > ay1)
+            return false;
 
         return true;
     }
@@ -53,8 +59,27 @@ public class RectangleCollider extends Collider {
     public void debugDraw(Raylib.Color color) {
         Raylib.Vector2 rPosition = position.toNative();
         Raylib.Vector2 rSize = size.toNative();
-            Raylib.DrawRectangleV(rPosition, rSize, color);
+        Raylib.DrawRectangleV(rPosition, rSize, color);
         rSize.close();
         rPosition.close();
+    }
+
+    @Override
+    public boolean insideOf(RectangleCollider b) {
+        float ax0 = this.position.x;
+        float ay0 = this.position.y;
+        float ax1 = this.position.x + this.size.x;
+        float ay1 = this.position.y + this.size.y;
+
+        float bx0 = b.position.x;
+        float by0 = b.position.y;
+        float bx1 = b.position.x + b.size.x;
+        float by1 = b.position.y + b.size.y;
+
+        if (ax0 > bx0 && ax1 < bx1 && ay0 > by0 && ay1 < by1) {
+            return true;
+        }
+
+        return false;
     }
 }

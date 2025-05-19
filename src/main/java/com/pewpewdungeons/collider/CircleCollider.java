@@ -7,7 +7,7 @@ public class CircleCollider extends Collider {
     public float radius;
 
     public CircleCollider(Vector2 topLeftPos, float radius) {
-        super(topLeftPos, new Vector2(2*radius, 2*radius));
+        super(topLeftPos, new Vector2(2 * radius, 2 * radius));
         this.radius = radius;
     }
 
@@ -24,6 +24,25 @@ public class CircleCollider extends Collider {
     @Override
     public boolean collide(RectangleCollider b) {
         return b.collide(this);
+    }
+
+    @Override
+    public boolean insideOf(RectangleCollider b) {
+        float ax0 = this.position.x - this.radius;
+        float ay0 = this.position.y - this.radius;
+        float ax1 = this.position.x + this.radius;
+        float ay1 = this.position.y + this.radius;
+
+        float bx0 = b.position.x;
+        float by0 = b.position.y;
+        float bx1 = b.position.x + b.size.x;
+        float by1 = b.position.y + b.size.y;
+
+        if (ax0 > bx0 && ax1 < bx1 && ay0 > by0 && ay1 < by1) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

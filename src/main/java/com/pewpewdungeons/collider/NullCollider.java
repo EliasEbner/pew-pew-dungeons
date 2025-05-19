@@ -19,6 +19,11 @@ public class NullCollider extends Collider {
     }
 
     @Override
+    public boolean insideOf(RectangleCollider b) {
+        return false;
+    }
+
+    @Override
     public void debugDraw(Raylib.Color color) {
     }
 }

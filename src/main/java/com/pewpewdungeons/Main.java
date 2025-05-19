@@ -2,12 +2,20 @@ package com.pewpewdungeons;
 
 import static com.raylib.Jaylib.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.pewpewdungeons.collider.CircleCollider;
 import com.pewpewdungeons.collider.Collider;
 import com.pewpewdungeons.collider.RectangleCollider;
+import com.pewpewdungeons.entities.GameObject;
 import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
+import com.pewpewdungeons.world.DoorPositionEnum;
 import com.pewpewdungeons.world.Dungeon;
+import com.pewpewdungeons.world.Room;
 import com.raylib.Raylib;
 
 public final class Main {
@@ -15,25 +23,28 @@ public final class Main {
     static Vector2 mousePosition;
     static Vector2 mouseWorldPosition;
 
-    public static Vector2 getMousePosition() { return mousePosition; }
-    public static Vector2 getMouseWorldPosition() { return new Vector2(mouseWorldPosition); }
+    public static Vector2 getMousePosition() {
+        return mousePosition;
+    }
+
+    public static Vector2 getMouseWorldPosition() {
+        return new Vector2(mouseWorldPosition);
+    }
 
     public static void main(String[] args) {
         int screenWidth = 1280;
         int screenHeight = 720;
 
-        for (int i=0; i < args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             String arg = args[i];
 
             if (arg.equals("-screenWidth")) {
-                assert i+1 < args.length;
+                assert i + 1 < args.length;
                 screenWidth = Integer.parseInt(args[++i]);
-            }
-            else if (arg.equals("-screenHeight")) {
-                assert i+1 < args.length;
+            } else if (arg.equals("-screenHeight")) {
+                assert i + 1 < args.length;
                 screenHeight = Integer.parseInt(args[++i]);
-            }
-            else {
+            } else {
                 System.out.println("Unknown argument " + arg);
             }
         }
@@ -41,12 +52,18 @@ public final class Main {
         InitWindow(screenWidth, screenHeight, "Pew-Pew-Dungeons");
         SetTargetFPS(60);
 
-        float screenAspect = (float)screenWidth / (float)screenHeight;
+        float screenAspect = (float) screenWidth / (float) screenHeight;
         float viewWidthInWorldSpaceUnits = 40;
         float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
 
-        Dungeon dungeon = new Dungeon();
-        Player player = new Player(100, 100, new Vector2(0, 0), new Vector2(1, 1), 4);
+        List<Room> rooms = new ArrayList<Room>();
+        List<GameObject> objectsInRoom = new ArrayList<GameObject>();
+        Vector2 roomPosition = new Vector2(10, 10);
+        Vector2 roomSize = new Vector2((float) 10, (float) 10.0);
+        Set<DoorPositionEnum> doorPositions = new HashSet<DoorPositionEnum>();
+        rooms.add(new Room(roomPosition, roomSize, objectsInRoom, doorPositions));
+
+        Dungeon dungeon = new Dungeon(rooms);
 
         Collider collider1 = new RectangleCollider(new Vector2(4, 4), new Vector2(4, 2));
         Collider collider2 = new CircleCollider(new Vector2(10, 8), 2);
@@ -59,9 +76,9 @@ public final class Main {
 
         while (!WindowShouldClose()) {
 
-            cameraTarget = new Vector2(viewWidthInWorldSpaceUnits/2, viewHeightInWorldSpaceUnits/2);
-            //cameraTarget = player.getPosition();
-            cameraZoom = (float)screenWidth / viewWidthInWorldSpaceUnits;
+            cameraTarget = new Vector2(viewWidthInWorldSpaceUnits / 2, viewHeightInWorldSpaceUnits / 2);
+            // cameraTarget = player.getPosition();
+            cameraZoom = (float) screenWidth / viewWidthInWorldSpaceUnits;
 
             // Setup native camera.
             try (Raylib.Vector2 nativeCameraOffset = cameraOffset.toNative()) {
@@ -90,20 +107,14 @@ public final class Main {
             // Update.
             dungeon.update(deltaTime);
             ProjectileSystem.update(deltaTime);
-            player.update(deltaTime);
 
             // Draw.
             BeginDrawing();
             ClearBackground(BLACK);
 
             BeginMode2D(nativeCamera);
-
-                collider1.debugDraw(collider1.collide(player) ? GREEN : RED);
-                collider2.debugDraw(collider2.collide(player) ? GREEN : RED);
-
-                dungeon.draw();
-                ProjectileSystem.draw();
-                player.draw();
+            dungeon.draw();
+            ProjectileSystem.draw();
 
             EndMode2D();
 

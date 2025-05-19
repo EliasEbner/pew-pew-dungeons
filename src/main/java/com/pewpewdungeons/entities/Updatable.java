@@ -1,5 +1,5 @@
 package com.pewpewdungeons.entities;
 
 public interface Updatable {
-    void update(float dt);
+    void update(float deltaTime);
 }

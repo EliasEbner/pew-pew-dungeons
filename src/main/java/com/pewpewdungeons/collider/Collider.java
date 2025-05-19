@@ -15,11 +15,14 @@ public abstract class Collider {
     }
 
     public Vector2 getCenter() {
-        return new Vector2(position.x + size.x/2, position.y + size.y/2);
+        return new Vector2(position.x + size.x / 2, position.y + size.y / 2);
     }
 
     public abstract boolean collide(CircleCollider b);
+
     public abstract boolean collide(RectangleCollider b);
+
+    public abstract boolean insideOf(RectangleCollider b);
 
     public abstract void debugDraw(Raylib.Color color);
 
@@ -29,9 +32,15 @@ public abstract class Collider {
 
     public boolean collide(Collider b) {
         switch (b) {
-            case CircleCollider    c -> { return collide(c); }
-            case RectangleCollider r -> { return collide(r); }
-            case NullCollider      n -> { return collide(n); }
+            case CircleCollider c -> {
+                return collide(c);
+            }
+            case RectangleCollider r -> {
+                return collide(r);
+            }
+            case NullCollider n -> {
+                return collide(n);
+            }
             case null, default -> {
                 assert false;
             }

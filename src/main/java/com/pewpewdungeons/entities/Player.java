@@ -5,6 +5,7 @@ import com.pewpewdungeons.core.Drawable;
 import com.pewpewdungeons.items.Gun;
 import com.pewpewdungeons.items.RangeWeapon;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
+import com.pewpewdungeons.world.Dungeon;
 import com.pewpewdungeons.Vector2;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
@@ -13,13 +14,14 @@ import java.util.ArrayList;
 import static com.raylib.Raylib.*;
 
 public class Player extends GameObject {
+    private Dungeon dungeon;
 
     private double health;
     private double mana;
     private PlayerInventory inventory;
     private RangeWeapon equippedWeapon = new Gun(new Vector2(0.5f, 0.25f), 1.2f, this);
 
-    public Player(double health, double mana, Vector2 position, Vector2 size, float speed) {
+    public Player(Dungeon dungeon, double health, double mana, Vector2 position, Vector2 size, float speed) {
         this.health = health;
         this.mana = mana;
         this.position = position;
@@ -28,6 +30,7 @@ public class Player extends GameObject {
         this.inventory = new PlayerInventory(new ArrayList<RangeWeapon>(), 0);
 
         this.collider = new RectangleCollider(position, size);
+        this.dungeon = dungeon;
     }
 
     @Override
@@ -56,7 +59,11 @@ public class Player extends GameObject {
         if (Raylib.IsKeyDown(KEY_S))
             dy += v;
 
+        // TODO
+        // if(this.collider.insideOf(dungeon.getCollider())) {
         this.position.add(dx, dy);
+
+        // }
 
         if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             equippedWeapon.shoot();
