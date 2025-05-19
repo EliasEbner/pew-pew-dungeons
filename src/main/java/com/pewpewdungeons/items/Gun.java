@@ -33,7 +33,7 @@ public class Gun extends GameObject implements RangeWeapon {
 
     @Override
     public void draw() {
-        float rotation = (float)Math.atan2(orientation.y, orientation.x);
+        float rotation = (float) Math.toDegrees(Math.atan2(orientation.y, orientation.x));
 
         Vector2 position = player.getCenterPosition();
 

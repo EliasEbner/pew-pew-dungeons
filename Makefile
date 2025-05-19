@@ -2,4 +2,4 @@ start:
 	make run
 
 run: 
-	mvn exec:java -Dexec.mainClass="com.pewpewdungeons.core.Main"
+	mvn exec:java -Dexec.mainClass="com.pewpewdungeons.Main"

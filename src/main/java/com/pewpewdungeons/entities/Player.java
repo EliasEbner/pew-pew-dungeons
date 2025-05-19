@@ -17,7 +17,7 @@ public class Player extends GameObject {
     private double health;
     private double mana;
     private PlayerInventory inventory;
-    private RangeWeapon equippedWeapon = new Gun(new Vector2(0.25f, 0.5f), 1.2f, this);
+    private RangeWeapon equippedWeapon = new Gun(new Vector2(0.5f, 0.25f), 1.2f, this);
 
     public Player(double health, double mana, Vector2 position, Vector2 size, float speed) {
         this.health = health;
@@ -36,7 +36,8 @@ public class Player extends GameObject {
             Raylib.DrawRectangleV(rPosition, this.size.toNative(), Jaylib.RED);
         }
         if (equippedWeapon != null)
-            if (equippedWeapon instanceof Drawable d) d.draw();
+            if (equippedWeapon instanceof Drawable d)
+                d.draw();
     }
 
     @Override
@@ -45,11 +46,15 @@ public class Player extends GameObject {
         float dy = 0;
         float v = this.speed * Raylib.GetFrameTime();
 
-        if (Raylib.IsKeyDown(KEY_A)) dx -= v;
-        if (Raylib.IsKeyDown(KEY_D)) dx += v;
+        if (Raylib.IsKeyDown(KEY_A))
+            dx -= v;
+        if (Raylib.IsKeyDown(KEY_D))
+            dx += v;
 
-        if (Raylib.IsKeyDown(KEY_W)) dy -= v;
-        if (Raylib.IsKeyDown(KEY_S)) dy += v;
+        if (Raylib.IsKeyDown(KEY_W))
+            dy -= v;
+        if (Raylib.IsKeyDown(KEY_S))
+            dy += v;
 
         this.position.add(dx, dy);
 
@@ -58,6 +63,7 @@ public class Player extends GameObject {
         }
 
         if (equippedWeapon != null)
-            if (equippedWeapon instanceof Updatable u) u.update(dt);
+            if (equippedWeapon instanceof Updatable u)
+                u.update(dt);
     }
 }

@@ -10,23 +10,27 @@ import com.raylib.Raylib;
  * your hot update loops.
  *
  * Why the native one (com.raylib.Raylib.Vector2) is a edge-only type
- * It’s an off-heap struct that lives in native memory; every field access goes through JNI.
+ * It’s an off-heap struct that lives in native memory; every field access goes
+ * through JNI.
  * Do that thousands of times per tick and you’ll feel it.
  * GitHub
  *
- * The old com.raylib.Jaylib.Vector2 vanished a couple of releases ago, so any docs or snippets that import com.raylib.Jaylib.* are stale.
+ * The old com.raylib.Jaylib.Vector2 vanished a couple of releases ago, so any
+ * docs or snippets that import com.raylib.Jaylib.* are stale.
  */
 public class Vector2 {
 
-    public static final Vector2 ZERO   = new Vector2(0f, 0f);
-    public static final Vector2 ONE    = new Vector2(1f, 1f);
+    public static final Vector2 ZERO = new Vector2(0f, 0f);
+    public static final Vector2 ONE = new Vector2(1f, 1f);
     public static final Vector2 X_AXIS = new Vector2(1f, 0f);
     public static final Vector2 Y_AXIS = new Vector2(0f, 1f);
 
     public float x;
     public float y;
 
-    public Vector2() { x = y = 0; }
+    public Vector2() {
+        x = y = 0;
+    }
 
     public Vector2(float x, float y) {
         this.x = x;
@@ -41,7 +45,7 @@ public class Vector2 {
     public static float distanceSquared(Vector2 a, Vector2 b) {
         float dx = (b.x - a.x);
         float dy = (b.y - a.y);
-        return dx*dx + dy*dy;
+        return dx * dx + dy * dy;
     }
 
     public void add(float x, float y) {
@@ -83,11 +87,11 @@ public class Vector2 {
     }
 
     public float angle(Vector2 v) {
-        return (float)Math.acos(this.dot(v) / (length() * v.length()));
+        return (float) Math.acos(this.dot(v) / (length() * v.length()));
     }
 
     public void normalize() {
-        float len = length();
+        float len = this.length();
         if (len != 0.0f) {
             this.x /= len;
             this.y /= len;
@@ -96,7 +100,8 @@ public class Vector2 {
 
     public Vector2 normalized() {
         float len = length();
-        if (len == 0f) return ZERO;
+        if (len == 0f)
+            return ZERO;
         return new Vector2(this.x / len, this.y / len);
     }
 
@@ -107,7 +112,7 @@ public class Vector2 {
     public float distanceSq(Vector2 v) {
         float dx = v.x - x;
         float dy = v.y - y;
-        return dx*dx + dy*dy;
+        return dx * dx + dy * dy;
     }
 
     public float distance(Vector2 v) {
