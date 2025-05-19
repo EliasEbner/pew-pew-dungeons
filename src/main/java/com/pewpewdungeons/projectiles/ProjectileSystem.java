@@ -12,13 +12,13 @@ public class ProjectileSystem {
     }
 
     public static void removeProjectile(Projectile p) {
-        // We can collect all of these and then delete at the end of the frame. That would be thread-safe.
         projectilesToDelete.add(p);
     }
 
     public static void update(float dt) {
         projectiles.forEach(p -> p.update(dt));
         projectiles.removeAll(projectilesToDelete);
+        projectilesToDelete.clear();
     }
 
     public static void draw() {

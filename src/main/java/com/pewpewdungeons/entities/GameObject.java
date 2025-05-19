@@ -1,5 +1,6 @@
 package com.pewpewdungeons.entities;
 
+import com.pewpewdungeons.collider.Collider;
 import com.pewpewdungeons.core.Drawable;
 import com.pewpewdungeons.Vector2;
 
@@ -10,6 +11,10 @@ public abstract class GameObject implements Drawable, Updatable {
     protected Vector2 orientation;
     protected float speed;
 
+    protected Collider collider;
+
     public Vector2 getPosition() { return position; }
     public Vector2 getCenterPosition() { return new Vector2(position.x + size.x/2, position.y + size.y/2); }
+
+    public Collider getCollider() { return collider; }
 }

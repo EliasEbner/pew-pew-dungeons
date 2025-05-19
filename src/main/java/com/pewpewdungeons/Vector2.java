@@ -38,6 +38,12 @@ public class Vector2 {
         this.y = v.y;
     }
 
+    public static float distanceSquared(Vector2 a, Vector2 b) {
+        float dx = (b.x - a.x);
+        float dy = (b.y - a.y);
+        return dx*dx + dy*dy;
+    }
+
     public void add(float x, float y) {
         this.x += x;
         this.y += y;

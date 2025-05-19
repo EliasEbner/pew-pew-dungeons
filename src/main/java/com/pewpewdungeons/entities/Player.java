@@ -1,26 +1,21 @@
 package com.pewpewdungeons.entities;
 
-import com.pewpewdungeons.Main;
+import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.core.Drawable;
-import com.pewpewdungeons.core.Movable;
 import com.pewpewdungeons.items.Gun;
 import com.pewpewdungeons.items.RangeWeapon;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
 import com.pewpewdungeons.Vector2;
-import com.pewpewdungeons.physics.rigidBody.RecRigidBody;
-import com.pewpewdungeons.projectiles.BulletProjectile;
-import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
 
 import static com.raylib.Raylib.*;
 
-public class Player extends GameObject implements Movable {
+public class Player extends GameObject {
 
     private double health;
     private double mana;
-    private RecRigidBody rigidBody;
     private PlayerInventory inventory;
     private RangeWeapon equippedWeapon = new Gun(new Vector2(0.25f, 0.5f), 1.2f, this);
 
@@ -30,8 +25,9 @@ public class Player extends GameObject implements Movable {
         this.position = position;
         this.size = size;
         this.speed = speed;
-        this.rigidBody = new RecRigidBody(position, size);
         this.inventory = new PlayerInventory(new ArrayList<RangeWeapon>(), 0);
+
+        this.collider = new RectangleCollider(position, size);
     }
 
     @Override
@@ -44,7 +40,7 @@ public class Player extends GameObject implements Movable {
     }
 
     @Override
-    public void move(float dt) {
+    public void update(float dt) {
         float dx = 0;
         float dy = 0;
         float v = this.speed * Raylib.GetFrameTime();
@@ -60,11 +56,7 @@ public class Player extends GameObject implements Movable {
         if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             equippedWeapon.shoot();
         }
-    }
 
-    @Override
-    public void update(float dt) {
-        this.move(dt);
         if (equippedWeapon != null)
             if (equippedWeapon instanceof Updatable u) u.update(dt);
     }

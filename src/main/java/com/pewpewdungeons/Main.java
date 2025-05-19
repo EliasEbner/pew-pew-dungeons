@@ -1,10 +1,11 @@
 package com.pewpewdungeons;
 
-import static com.raylib.Jaylib.BLACK;
-import static com.raylib.Raylib.*;
+import static com.raylib.Jaylib.*;
 
+import com.pewpewdungeons.collider.CircleCollider;
+import com.pewpewdungeons.collider.Collider;
+import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.entities.Player;
-import com.pewpewdungeons.projectiles.Projectile;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.pewpewdungeons.world.Dungeon;
 import com.raylib.Raylib;
@@ -47,6 +48,9 @@ public final class Main {
         Dungeon dungeon = new Dungeon();
         Player player = new Player(100, 100, new Vector2(0, 0), new Vector2(1, 1), 4);
 
+        Collider collider1 = new RectangleCollider(new Vector2(4, 4), new Vector2(4, 2));
+        Collider collider2 = new CircleCollider(new Vector2(10, 8), 2);
+
         Vector2 cameraOffset = new Vector2((float) screenWidth / 2, (float) screenHeight / 2);
         Vector2 cameraTarget; // in world-space.
         float cameraZoom;
@@ -76,8 +80,8 @@ public final class Main {
                 mousePosition = Vector2.fromNative(pos);
                 mouseWorldPosition = Vector2.fromNative(posWS);
 
-                pos.deallocate();
-                posWS.deallocate();
+                pos.close();
+                posWS.close();
             }
 
             // We'll want to pass this down for cool time effects.
@@ -88,12 +92,14 @@ public final class Main {
             ProjectileSystem.update(deltaTime);
             player.update(deltaTime);
 
-
             // Draw.
             BeginDrawing();
             ClearBackground(BLACK);
 
             BeginMode2D(nativeCamera);
+
+                collider1.debugDraw(collider1.collide(player) ? GREEN : RED);
+                collider2.debugDraw(collider2.collide(player) ? GREEN : RED);
 
                 dungeon.draw();
                 ProjectileSystem.draw();
