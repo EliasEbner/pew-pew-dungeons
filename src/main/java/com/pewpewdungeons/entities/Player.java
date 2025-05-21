@@ -59,11 +59,12 @@ public class Player extends GameObject {
         if (Raylib.IsKeyDown(KEY_S))
             dy += v;
 
-        // TODO
-        // if(this.collider.insideOf(dungeon.getCollider())) {
-        this.position.add(dx, dy);
+        RectangleCollider tempCollider = new RectangleCollider(new Vector2(this.position.x + dx, this.position.y + dy),
+                this.size);
 
-        // }
+        if (this.dungeon.contains(tempCollider)) {
+            this.position.add(dx, dy);
+        }
 
         if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             equippedWeapon.shoot();

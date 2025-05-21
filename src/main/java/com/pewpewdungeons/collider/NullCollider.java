@@ -24,6 +24,12 @@ public class NullCollider extends Collider {
     }
 
     @Override
+    public boolean contains(Vector2 point) {
+        return false;
+    }
+
+    @Override
     public void debugDraw(Raylib.Color color) {
     }
+
 }

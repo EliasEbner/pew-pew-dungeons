@@ -46,6 +46,18 @@ public class CircleCollider extends Collider {
     }
 
     @Override
+    public boolean contains(Vector2 point) {
+        Vector2 fromCenter = this.getCenter();
+        fromCenter.sub(point);
+
+        if (fromCenter.length() < this.radius) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public void debugDraw(Raylib.Color color) {
         try (Raylib.Vector2 rCenter = getCenter().toNative()) {
             Raylib.DrawCircleV(rCenter, radius, color);

@@ -12,8 +12,8 @@ import com.pewpewdungeons.collider.Collider;
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.entities.GameObject;
 import com.pewpewdungeons.entities.Player;
+import com.pewpewdungeons.enums.DoorPositionEnum;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
-import com.pewpewdungeons.world.DoorPositionEnum;
 import com.pewpewdungeons.world.Dungeon;
 import com.pewpewdungeons.world.Room;
 import com.raylib.Raylib;
@@ -57,7 +57,7 @@ public final class Main {
         float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
 
         List<Room> rooms = new ArrayList<Room>();
-        List<GameObject> objectsInRoom = new ArrayList<GameObject>();
+        Set<GameObject> objectsInRoom = new HashSet<GameObject>();
         Vector2 roomPosition = new Vector2(10, 10);
         Vector2 roomSize = new Vector2((float) 10, (float) 10.0);
         Set<DoorPositionEnum> doorPositions = new HashSet<DoorPositionEnum>();

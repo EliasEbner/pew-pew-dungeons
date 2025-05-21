@@ -56,6 +56,20 @@ public class RectangleCollider extends Collider {
     }
 
     @Override
+    public boolean contains(Vector2 point) {
+        float ax0 = position.x;
+        float ay0 = position.y;
+        float ax1 = position.x + size.x;
+        float ay1 = position.y + size.y;
+
+        if (point.x > ax0 && point.x < ax1 && point.y > ay0 && point.y < ay1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public void debugDraw(Raylib.Color color) {
         Raylib.Vector2 rPosition = position.toNative();
         Raylib.Vector2 rSize = size.toNative();

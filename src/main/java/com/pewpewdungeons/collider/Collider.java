@@ -24,6 +24,8 @@ public abstract class Collider {
 
     public abstract boolean insideOf(RectangleCollider b);
 
+    public abstract boolean contains(Vector2 point);
+
     public abstract void debugDraw(Raylib.Color color);
 
     public boolean collide(GameObject g) {
