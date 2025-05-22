@@ -109,6 +109,14 @@ public final class Main {
             dungeon.update(deltaTime);
             ProjectileSystem.update(deltaTime);
 
+            // Check for restart
+            if (Raylib.IsKeyPressed(KEY_R)) {
+                // Generate new dungeon
+                dungeon = generator.generateDungeon(5);
+                ProjectileSystem.reset();
+                ProjectileSystem.setDungeon(dungeon);
+            }
+
             // Draw.
             BeginDrawing();
             ClearBackground(BLACK);
@@ -118,6 +126,11 @@ public final class Main {
             ProjectileSystem.draw();
 
             EndMode2D();
+
+            // Draw game instructions
+            DrawText("WASD: Move", 10, 10, 20, WHITE);
+            DrawText("Left Mouse Button: Shoot", 10, 40, 20, WHITE);
+            DrawText("R: Restart", 10, 70, 20, WHITE);
 
             EndDrawing();
         }
