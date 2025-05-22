@@ -15,6 +15,7 @@ import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.enums.DoorPositionEnum;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.pewpewdungeons.world.Dungeon;
+import com.pewpewdungeons.world.DungeonGenerator;
 import com.pewpewdungeons.world.Room;
 import com.raylib.Raylib;
 
@@ -56,18 +57,13 @@ public final class Main {
         float viewWidthInWorldSpaceUnits = 40;
         float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
 
-        List<Room> rooms = new ArrayList<Room>();
-        Set<GameObject> objectsInRoom = new HashSet<GameObject>();
-        Vector2 roomPosition = new Vector2(10, 10);
-        Vector2 roomSize = new Vector2((float) 10, (float) 10.0);
-        Set<DoorPositionEnum> doorPositions = new HashSet<DoorPositionEnum>();
-        rooms.add(new Room(roomPosition, roomSize, objectsInRoom, doorPositions));
-
-        Dungeon dungeon = new Dungeon(rooms);
-
-        Collider collider1 = new RectangleCollider(new Vector2(4, 4), new Vector2(4, 2));
-        Collider collider2 = new CircleCollider(new Vector2(10, 8), 2);
-
+        // Generate a dungeon with 5 rooms
+        DungeonGenerator generator = new DungeonGenerator();
+        Dungeon dungeon = generator.generateDungeon(5);
+        
+        // Set the dungeon in the ProjectileSystem
+        ProjectileSystem.setDungeon(dungeon);
+        
         Vector2 cameraOffset = new Vector2((float) screenWidth / 2, (float) screenHeight / 2);
         Vector2 cameraTarget; // in world-space.
         float cameraZoom;
@@ -75,9 +71,14 @@ public final class Main {
         Camera2D nativeCamera = new Camera2D();
 
         while (!WindowShouldClose()) {
-
-            cameraTarget = new Vector2(viewWidthInWorldSpaceUnits / 2, viewHeightInWorldSpaceUnits / 2);
-            // cameraTarget = player.getPosition();
+            // Get player position for camera centering
+            Player player = dungeon.getPlayer();
+            if (player != null) {
+                cameraTarget = player.getPosition();
+            } else {
+                cameraTarget = new Vector2(viewWidthInWorldSpaceUnits / 2, viewHeightInWorldSpaceUnits / 2);
+            }
+            
             cameraZoom = (float) screenWidth / viewWidthInWorldSpaceUnits;
 
             // Setup native camera.
