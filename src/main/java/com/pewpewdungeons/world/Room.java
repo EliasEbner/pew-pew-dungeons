@@ -101,4 +101,20 @@ public final class Room implements Drawable, Updatable {
     public Set<DoorPositionEnum> getDoorPositions() {
         return Set.copyOf(this.doorPositions);
     }
+    
+    public Vector2 getPosition() {
+        return new Vector2(position);
+    }
+    
+    public Vector2 getSize() {
+        return new Vector2(size);
+    }
+    
+    public void addObject(GameObject object) {
+        objectsInRoom.add(object);
+    }
+    
+    public void removeObject(GameObject object) {
+        objectsInRoom.remove(object);
+    }
 }
