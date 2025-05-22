@@ -63,4 +63,31 @@ public class CircleCollider extends Collider {
             Raylib.DrawCircleV(rCenter, radius, color);
         }
     }
+
+    /**
+     * Checks if this circle collider intersects with another collider
+     */
+    public boolean intersects(Collider other) {
+        if (other instanceof RectangleCollider) {
+            RectangleCollider rect = (RectangleCollider) other;
+            
+            // Find closest point on rectangle to circle center
+            float closestX = Math.max(rect.position.x, Math.min(position.x, rect.position.x + rect.size.x));
+            float closestY = Math.max(rect.position.y, Math.min(position.y, rect.position.y + rect.size.y));
+            
+            // Calculate distance between closest point and circle center
+            float distanceX = position.x - closestX;
+            float distanceY = position.y - closestY;
+            float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+            
+            // Check if distance is less then radius squared
+            return distanceSquared < (radius * radius);
+        } else if (other instanceof CircleCollider) {
+            CircleCollider circle = (CircleCollider) other;
+            float distance = Vector2.distance(position, circle.position);
+            return distance < (radius + circle.radius);
+        }
+        
+        return false;
+    }
 }

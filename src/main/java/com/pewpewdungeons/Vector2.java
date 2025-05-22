@@ -10,9 +10,9 @@ import com.raylib.Raylib;
  * your hot update loops.
  *
  * Why the native one (com.raylib.Raylib.Vector2) is a edge-only type
- * It’s an off-heap struct that lives in native memory; every field access goes
+ * It's an off-heap struct that lives in native memory; every field access goes
  * through JNI.
- * Do that thousands of times per tick and you’ll feel it.
+ * Do that thousands of times per tick and you'll feel it.
  * GitHub
  *
  * The old com.raylib.Jaylib.Vector2 vanished a couple of releases ago, so any
@@ -140,5 +140,11 @@ public class Vector2 {
     /** Build a Vector2 from a Raylib.Vector2 without mutating the source. */
     public static Vector2 fromNative(Raylib.Vector2 v) {
         return new Vector2(v.x(), v.y());
+    }
+
+    public static float distance(Vector2 a, Vector2 b) {
+        float dx = b.x - a.x;
+        float dy = b.y - a.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
     }
 }
