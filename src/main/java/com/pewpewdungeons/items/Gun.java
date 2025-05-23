@@ -1,5 +1,7 @@
 package com.pewpewdungeons.items;
 
+import static com.raylib.Raylib.GetTime;
+
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.entities.GameObject;
@@ -8,11 +10,15 @@ import com.pewpewdungeons.projectiles.BulletProjectile;
 import com.pewpewdungeons.projectiles.Projectile;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.raylib.Jaylib;
+import com.raylib.Raylib;
 
 public class Gun extends GameObject implements RangeWeapon {
 
-    private float distanceFromPlayer;
-    private Player player;
+    protected float distanceFromPlayer;
+    protected Player player;
+    protected Raylib.Color color = Jaylib.BLUE;
+    protected double shootingDelay = 0.2;
+    protected double lastShotTime = GetTime();
 
     public Gun(Vector2 size, float distanceFromPlayer, Player player) {
         this.size = size;
@@ -20,8 +26,13 @@ public class Gun extends GameObject implements RangeWeapon {
         this.player = player;
     }
 
+    protected boolean canShoot() {
+        return GetTime() > lastShotTime + shootingDelay;
+    }
+
     @Override
     public void shoot() {
+        if(!canShoot()) return;
         Vector2 pos = new Vector2(player.getCenterPosition());
         Vector2 dir = Main.getMouseWorldPosition();
         dir.sub(player.getCenterPosition());
@@ -29,6 +40,7 @@ public class Gun extends GameObject implements RangeWeapon {
         dir.mul(20);
 
         ProjectileSystem.createProjectile(new BulletProjectile(pos, dir));
+        lastShotTime = GetTime();
     }
 
     @Override
@@ -47,7 +59,7 @@ public class Gun extends GameObject implements RangeWeapon {
         origin.x(this.size.x / 2);
         origin.y(this.size.y / 2);
 
-        Jaylib.DrawRectanglePro(rectangle, origin, rotation, Jaylib.BLUE);
+        Jaylib.DrawRectanglePro(rectangle, origin, rotation, color);
 
         origin.close();
         rectangle.close();

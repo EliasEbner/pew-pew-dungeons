@@ -2,8 +2,7 @@ package com.pewpewdungeons.entities;
 
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.core.Drawable;
-import com.pewpewdungeons.items.Gun;
-import com.pewpewdungeons.items.RangeWeapon;
+import com.pewpewdungeons.items.*;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
 import com.pewpewdungeons.world.Dungeon;
 import com.pewpewdungeons.Vector2;
@@ -20,7 +19,7 @@ public class Player extends GameObject {
     private double maxHealth;
     private double mana;
     private PlayerInventory inventory;
-    private RangeWeapon equippedWeapon = new Gun(new Vector2(0.5f, 0.25f), 1.2f, this);
+    private RangeWeapon equippedWeapon = new ShotGun(new Vector2(0.5f, 0.25f), 1.2f, this);
     private boolean isDead = false;
     private float invulnerabilityTime = 0; // Time player is invulnerable after taking damage
     private float invulnerabilityDuration = 1.0f; // 1 second of invulnerability

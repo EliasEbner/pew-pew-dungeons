@@ -131,6 +131,16 @@ public class Vector2 {
         return new Vector2(x + (to.x - x) * t, y + (to.y - y) * t);
     }
 
+    public Vector2 rotateVector(float degrees) {
+        float radians = (float) Math.toRadians(degrees);
+        float cos = (float) Math.cos(radians);
+        float sin = (float) Math.sin(radians);
+        return new Vector2(
+            x * cos - y * sin,
+            x * sin + y * cos
+        );
+    }
+
     // ─────────────────────────── conversion ──────────────────────────
     /** Copy to native Raylib struct – call only right before rendering. */
     public Raylib.Vector2 toNative() {
