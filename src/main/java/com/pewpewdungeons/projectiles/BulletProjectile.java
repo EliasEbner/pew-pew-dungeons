@@ -1,5 +1,6 @@
 package com.pewpewdungeons.projectiles;
 
+import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.collider.CircleCollider;
 import com.pewpewdungeons.entities.Enemy;
@@ -43,6 +44,7 @@ public class BulletProjectile extends Projectile {
             if (collider.intersects(enemy.getCollider())) {
                 enemy.takeDamage(damage);
                 hasHit = true;
+                Main.debugOutput.add("Enemy hit");
                 ProjectileSystem.removeProjectile(this);
                 break;
             }

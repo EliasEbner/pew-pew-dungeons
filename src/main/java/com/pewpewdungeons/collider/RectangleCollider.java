@@ -62,7 +62,7 @@ public class RectangleCollider extends Collider {
         float ax1 = position.x + size.x;
         float ay1 = position.y + size.y;
 
-        if (point.x > ax0 && point.x < ax1 && point.y > ay0 && point.y < ay1) {
+        if (point.x >= ax0 && point.x <= ax1 && point.y >= ay0 && point.y <= ay1) {
             return true;
         }
 
@@ -90,7 +90,7 @@ public class RectangleCollider extends Collider {
         float bx1 = b.position.x + b.size.x;
         float by1 = b.position.y + b.size.y;
 
-        if (ax0 > bx0 && ax1 < bx1 && ay0 > by0 && ay1 < by1) {
+        if (ax0 >= bx0 && ax1 <= bx1 && ay0 >= by0 && ay1 <= by1) {
             return true;
         }
 

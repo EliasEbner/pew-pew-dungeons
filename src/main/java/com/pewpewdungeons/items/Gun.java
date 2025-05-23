@@ -7,7 +7,6 @@ import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.entities.GameObject;
 import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.projectiles.BulletProjectile;
-import com.pewpewdungeons.projectiles.Projectile;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
@@ -45,6 +44,7 @@ public class Gun extends GameObject implements RangeWeapon {
 
     @Override
     public void draw() {
+        if(orientation == null) orientation = new Vector2();
         float rotation = (float) Math.toDegrees(Math.atan2(orientation.y, orientation.x));
 
         Vector2 position = player.getCenterPosition();

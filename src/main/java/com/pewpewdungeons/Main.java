@@ -4,6 +4,7 @@ import static com.raylib.Jaylib.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +24,9 @@ public final class Main {
 
     static Vector2 mousePosition;
     static Vector2 mouseWorldPosition;
+
+    // Only for Debug
+    public static List<String> debugOutput = new LinkedList<>();
 
     public static Vector2 getMousePosition() {
         return mousePosition;
@@ -131,6 +135,12 @@ public final class Main {
             DrawText("WASD: Move", 10, 10, 20, WHITE);
             DrawText("Left Mouse Button: Shoot", 10, 40, 20, WHITE);
             DrawText("R: Restart", 10, 70, 20, WHITE);
+
+            // Debug Output
+            while(debugOutput.size() > 5)
+                debugOutput.removeFirst();
+            for(int i = 0; i < debugOutput.size(); i++)
+                DrawText("Debug: " + debugOutput.get(i), 10, 120 + i*10, 10, RED);
 
             EndDrawing();
         }

@@ -5,6 +5,7 @@ import com.pewpewdungeons.core.Drawable;
 import com.pewpewdungeons.items.*;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
 import com.pewpewdungeons.world.Dungeon;
+import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
@@ -100,6 +101,7 @@ public class Player extends GameObject {
         }
 
         if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            Main.debugOutput.add("Shot fired");
             equippedWeapon.shoot();
         }
 
