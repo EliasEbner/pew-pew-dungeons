@@ -20,7 +20,7 @@ public class Player extends GameObject {
     private double maxHealth;
     private double mana;
     private PlayerInventory inventory;
-    private RangeWeapon equippedWeapon = new ShotGun(new Vector2(0.5f, 0.25f), 1.2f, this);
+    private Weapon equippedWeapon = new ShotGun(new Vector2(0.5f, 0.25f), 1.2f, this);
     private boolean isDead = false;
     private float invulnerabilityTime = 0; // Time player is invulnerable after taking damage
     private float invulnerabilityDuration = 1.0f; // 1 second of invulnerability
@@ -32,7 +32,7 @@ public class Player extends GameObject {
         this.position = position;
         this.size = size;
         this.speed = speed;
-        this.inventory = new PlayerInventory(new ArrayList<RangeWeapon>(), 0);
+        this.inventory = new PlayerInventory(new ArrayList<Weapon>(), 0);
 
         this.collider = new RectangleCollider(position, size);
         this.dungeon = dungeon;

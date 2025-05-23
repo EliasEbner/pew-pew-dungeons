@@ -90,6 +90,10 @@ public class Vector2 {
         return (float) Math.acos(this.dot(v) / (length() * v.length()));
     }
 
+    public static Vector2 fromAngle(float radians) {
+        return new Vector2((float) Math.cos(radians), (float) Math.sin(radians));
+    }
+
     public void normalize() {
         float len = this.length();
         if (len != 0.0f) {
@@ -139,6 +143,16 @@ public class Vector2 {
             x * cos - y * sin,
             x * sin + y * cos
         );
+    }
+
+    public void set(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void set(Vector2 v) {
+        this.x = v.x;
+        this.y = v.y;
     }
 
     // ─────────────────────────── conversion ──────────────────────────

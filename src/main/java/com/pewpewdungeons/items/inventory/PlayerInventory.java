@@ -1,11 +1,11 @@
 package com.pewpewdungeons.items.inventory;
 
-import com.pewpewdungeons.items.RangeWeapon;
+import com.pewpewdungeons.items.Weapon;
 import java.util.List;
 
 public class PlayerInventory extends Inventory {
 
-    public PlayerInventory(List<RangeWeapon> weapons, long coins) {
+    public PlayerInventory(List<Weapon> weapons, long coins) {
         super(weapons, coins);
     }
 }

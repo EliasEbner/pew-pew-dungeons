@@ -1,5 +1,5 @@
 package com.pewpewdungeons.items;
 
-public interface RangeWeapon {
+public interface Weapon {
     void shoot();
 }
