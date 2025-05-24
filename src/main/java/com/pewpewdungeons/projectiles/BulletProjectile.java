@@ -3,7 +3,9 @@ package com.pewpewdungeons.projectiles;
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.collider.CircleCollider;
+import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.entities.Enemy;
+import com.pewpewdungeons.world.Room;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
@@ -35,19 +37,44 @@ public class BulletProjectile extends Projectile {
         // Don't update if already hit something
         if (hasHit) return;
         
-        // Move projectile
-        moveBy(velocity.x * dt, velocity.y * dt);
-        collider.position = new Vector2(position);
+        // Calculate new position
+        Vector2 newPosition = new Vector2(position);
+        newPosition.add(new Vector2(velocity.x * dt, velocity.y * dt));
         
-        // Check for collisions with enemies
-        for (Enemy enemy : ProjectileSystem.getDungeon().getEnemies()) {
-            if (collider.intersects(enemy.getCollider())) {
-                enemy.takeDamage(damage);
-                hasHit = true;
-                Main.debugOutput.add("Enemy hit");
-                ProjectileSystem.removeProjectile(this);
-                break;
+        // Create temporary collider at new position to check for wall collision
+        CircleCollider tempCollider = new CircleCollider(newPosition, radius);
+        
+        // Check if the bullet would be inside a room after moving
+        boolean insideRoom = false;
+        for (Room room : ProjectileSystem.getDungeon().getRooms()) {
+            for (RectangleCollider roomCollider : room.getColliders()) {
+                if (tempCollider.insideOf(roomCollider)) {
+                    insideRoom = true;
+                    break;
+                }
             }
+            if (insideRoom) break;
+        }
+        
+        if (insideRoom) {
+            // If inside a room, move the bullet
+            moveBy(velocity.x * dt, velocity.y * dt);
+            collider.position = new Vector2(position);
+            
+            // Check for collisions with enemies
+            for (Enemy enemy : ProjectileSystem.getDungeon().getEnemies()) {
+                if (collider.intersects(enemy.getCollider())) {
+                    enemy.takeDamage(damage);
+                    hasHit = true;
+                    Main.debugOutput.add("Enemy hit");
+                    ProjectileSystem.removeProjectile(this);
+                    break;
+                }
+            }
+        } else {
+            // Bullet hit a wall
+            hasHit = true;
+            ProjectileSystem.removeProjectile(this);
         }
 
         // Remove bullet after a certain time

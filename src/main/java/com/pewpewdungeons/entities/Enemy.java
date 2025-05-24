@@ -49,6 +49,8 @@ public class Enemy extends GameObject implements AutoMovable {
 
             if (dungeon.contains(tempCollider)) {
                 this.position = newPos;
+                // Update the collider position to match the new position
+                this.collider.position = new Vector2(newPos);
             }
         }
     }
@@ -63,6 +65,9 @@ public class Enemy extends GameObject implements AutoMovable {
     @Override
     public void update(float dt) {
         autoMove();
+        
+        // Ensure collider position is in sync with enemy position
+        this.collider.position = new Vector2(position);
         
         // Handle attack cooldown
         if (attackCooldown > 0) {
