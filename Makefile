@@ -1,8 +1,11 @@
 start:
-	make run
+	make compile run
 
 run: 
 	mvn exec:java -Dexec.mainClass="com.pewpewdungeons.Main"
+
+compile:
+	mvn compile
 
 mac:
 	java -XstartOnFirstThread \
