@@ -11,12 +11,9 @@ import com.pewpewdungeons.entities.Updatable;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
-public final class Room implements Drawable, Updatable {
+public final class Room extends GameObject {
   final float doorWidth = 30;
   final float doorLength = 50;
-
-  private Vector2 position;
-  private Vector2 size;
 
   private Set<GameObject> objectsInRoom;
 

@@ -2,6 +2,8 @@ package com.pewpewdungeons.world;
 
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.entities.GameObject;
+import com.pewpewdungeons.entities.Player;
+import com.pewpewdungeons.enums.DoorOrientationEnum;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,6 +63,9 @@ public class DungeonGenerator {
       rooms.add(room);
     }
 
+    Dungeon dungeon = new Dungeon(rooms);
+
+    // here we add the corridors connecting the rooms
     for (int i = 0; i < roomCount - 1; i++) {
       Room room0 = rooms.get(i);
       Room room1 = rooms.get(i + 1);
@@ -77,6 +82,8 @@ public class DungeonGenerator {
 
       Vector2 corridorPosition = new Vector2();
       Vector2 corridorSize = new Vector2();
+
+      Set<GameObject> objectsInCorridor = new HashSet<GameObject>();
 
       // if the rooms overlap in the y axis
       if (by1 - ay0 >= corridorWidth && ay1 - by0 >= corridorWidth) {
@@ -100,6 +107,10 @@ public class DungeonGenerator {
         } else {
           System.out.println("Overlapping rooms. Cannot connect with corridors.");
         }
+
+        objectsInCorridor
+            .add(new Door(dungeon.getPlayer(), corridorPosition, corridorSize, DoorOrientationEnum.VERTICAL));
+
         // if they overlap in the x axis
       } else if (bx1 - ax0 >= corridorWidth && ax1 - bx0 >= corridorWidth) {
         corridorPosition.x = random.nextFloat(
@@ -122,15 +133,18 @@ public class DungeonGenerator {
         } else {
           System.out.println("Overlapping rooms. Cannot connect with corridors.");
         }
+
+        objectsInCorridor
+            .add(new Door(dungeon.getPlayer(), corridorPosition, corridorSize, DoorOrientationEnum.HORIZONTAL));
       } else {
         System.out.println("Rooms cannot be connected with a straight horizontal or vertical corrior.");
       }
 
-      rooms.add(new Room(corridorPosition, corridorSize, new HashSet<GameObject>()));
+      dungeon.addRoom(new Room(corridorPosition, corridorSize, objectsInCorridor));
     }
 
     // Create the dungeon with generated rooms
-    return new Dungeon(rooms);
+    return dungeon;
   }
 
   private static Vector2 calculateNextRoomPosition(Vector2 currentPos, Vector2 roomSize, Room lastRoom) {

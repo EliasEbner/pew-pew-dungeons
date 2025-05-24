@@ -11,6 +11,7 @@ import com.pewpewdungeons.entities.Updatable;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -65,25 +66,25 @@ public final class Dungeon extends GameObject {
         Vector2 enemyPos = null;
         Vector2 enemySize = new Vector2(1, 1);
         int attempts = 0;
-        final int maxAttempts = 50;  // Limit attempts to prevent infinite loops
-        
+        final int maxAttempts = 50; // Limit attempts to prevent infinite loops
+
         while (enemyPos == null && attempts < maxAttempts) {
           attempts++;
-          
+
           // Generate random position within room bounds
           float x = room.getPosition().x + random.nextFloat() * room.getSize().x;
           float y = room.getPosition().y + random.nextFloat() * room.getSize().y;
           Vector2 candidatePos = new Vector2(x, y);
-          
+
           // Create a temporary collider to check if position is valid
           RectangleCollider tempCollider = new RectangleCollider(candidatePos, enemySize);
-          
+
           // Check if all corners of the enemy would be inside a room
           if (contains(tempCollider)) {
             enemyPos = candidatePos;
           }
         }
-        
+
         // If we found a valid position, create the enemy
         if (enemyPos != null) {
           Enemy enemy = new Enemy(this, 50, enemyPos, enemySize, 2.0f + (i * 0.2f));
@@ -159,6 +160,10 @@ public final class Dungeon extends GameObject {
     return List.copyOf(this.rooms);
   }
 
+  public void addRoom(Room room) {
+    this.rooms.add(room);
+  }
+
   public boolean contains(RectangleCollider collider) {
     boolean[] cornerCollisions = { false, false, false, false };
 
@@ -205,5 +210,25 @@ public final class Dungeon extends GameObject {
 
   public List<Enemy> getEnemies() {
     return new ArrayList<>(enemies);
+  }
+
+  public boolean collidesWithObjectInRoom(RectangleCollider collider) {
+    for (Room room : rooms) {
+      // checks collision only for objects in the room the collider is currently in
+      Vector2 tempPoint = collider.position.copy();
+      tempPoint.add(collider.size);
+      for (RectangleCollider roomCollider : room.getColliders()) {
+        if (roomCollider.contains(collider.position) || roomCollider.contains(tempPoint)) {
+          for (GameObject object : room.getObjects()) {
+            if (object.getCollider().collide(collider)) {
+              return true;
+            }
+          }
+        }
+      }
+
+    }
+
+    return false;
   }
 }
