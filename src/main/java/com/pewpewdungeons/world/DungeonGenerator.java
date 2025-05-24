@@ -29,7 +29,7 @@ public class DungeonGenerator {
 
   // Amount of overlap between the corridors and the room to make sure
   // the player isn't stuck
-  private final static float corridorRoomOverlap = 0.1f;
+  private final static float corridorRoomOverlap = 0.0f;
 
   // Generate a dungeonn layout with the specified number of rooms
   public static Dungeon generateDungeon(int roomCount) {
@@ -65,15 +65,15 @@ public class DungeonGenerator {
       Room room0 = rooms.get(i);
       Room room1 = rooms.get(i + 1);
 
-      int ax0 = (int) (room0.getPosition().x);
-      int ax1 = (int) (room0.getPosition().x + room0.getSize().x);
-      int ay0 = (int) (room0.getPosition().y);
-      int ay1 = (int) (room0.getPosition().y + room0.getSize().y);
+      float ax0 = (room0.getPosition().x);
+      float ax1 = (room0.getPosition().x + room0.getSize().x);
+      float ay0 = (room0.getPosition().y);
+      float ay1 = (room0.getPosition().y + room0.getSize().y);
 
-      int bx0 = (int) (room1.getPosition().x);
-      int bx1 = (int) (room1.getPosition().x + room1.getSize().x);
-      int by0 = (int) (room1.getPosition().y);
-      int by1 = (int) (room1.getPosition().y + room1.getSize().y);
+      float bx0 = (room1.getPosition().x);
+      float bx1 = (room1.getPosition().x + room1.getSize().x);
+      float by0 = (room1.getPosition().y);
+      float by1 = (room1.getPosition().y + room1.getSize().y);
 
       Vector2 corridorPosition = new Vector2();
       Vector2 corridorSize = new Vector2();
@@ -91,17 +91,17 @@ public class DungeonGenerator {
 
         // if the second room is to the right of the first
         if (ax1 < bx0) {
-          corridorSize.x = bx0 - ax1 + corridorRoomOverlap * 2;
-          corridorPosition.x = ax1 - corridorRoomOverlap;
+          corridorSize.x = bx0 - ax1;
+          corridorPosition.x = ax1;
           // if the second room is to the left of the first
         } else if (bx1 < ax0) {
-          corridorSize.x = ax0 - bx1 + corridorRoomOverlap * 2;
-          corridorPosition.x = bx1 - corridorRoomOverlap;
+          corridorSize.x = ax0 - bx1;
+          corridorPosition.x = bx1;
         } else {
           System.out.println("Overlapping rooms. Cannot connect with corridors.");
         }
         // if they overlap in the x axis
-      } else if (bx1 - ax0 >= corridorWidth && ax1 - by0 >= corridorWidth) {
+      } else if (bx1 - ax0 >= corridorWidth && ax1 - bx0 >= corridorWidth) {
         corridorPosition.x = random.nextFloat(
             Math.max(
                 ax0, bx0),
@@ -113,12 +113,12 @@ public class DungeonGenerator {
 
         // if the second room is below the first
         if (ay1 < by0) {
-          corridorSize.y = by0 - ay1 + corridorRoomOverlap * 2;
-          corridorPosition.y = ay1 - corridorRoomOverlap;
+          corridorSize.y = by0 - ay1;
+          corridorPosition.y = ay1;
           // if the second room is above the first
         } else if (by1 < ay0) {
-          corridorSize.y = ay0 - by1 + corridorRoomOverlap * 2;
-          corridorPosition.y = by1 - corridorRoomOverlap;
+          corridorSize.y = ay0 - by1;
+          corridorPosition.y = by1;
         } else {
           System.out.println("Overlapping rooms. Cannot connect with corridors.");
         }
