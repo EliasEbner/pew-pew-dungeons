@@ -61,14 +61,34 @@ public final class Dungeon extends GameObject {
       int enemyCount = 1 + i / 2;
 
       for (int j = 0; j < enemyCount; j++) {
-        // Place enemy at random position within room
-        float x = room.getPosition().x + random.nextFloat() * room.getSize().x;
-        float y = room.getPosition().y + random.nextFloat() * room.getSize().y;
-
-        Vector2 enemyPos = new Vector2(x, y);
-        Enemy enemy = new Enemy(this, 50, enemyPos, new Vector2(1, 1), 2.0f + (i * 0.2f));
-
-        enemies.add(enemy);
+        // Try to find a valid position for the enemy
+        Vector2 enemyPos = null;
+        Vector2 enemySize = new Vector2(1, 1);
+        int attempts = 0;
+        final int maxAttempts = 50;  // Limit attempts to prevent infinite loops
+        
+        while (enemyPos == null && attempts < maxAttempts) {
+          attempts++;
+          
+          // Generate random position within room bounds
+          float x = room.getPosition().x + random.nextFloat() * room.getSize().x;
+          float y = room.getPosition().y + random.nextFloat() * room.getSize().y;
+          Vector2 candidatePos = new Vector2(x, y);
+          
+          // Create a temporary collider to check if position is valid
+          RectangleCollider tempCollider = new RectangleCollider(candidatePos, enemySize);
+          
+          // Check if all corners of the enemy would be inside a room
+          if (contains(tempCollider)) {
+            enemyPos = candidatePos;
+          }
+        }
+        
+        // If we found a valid position, create the enemy
+        if (enemyPos != null) {
+          Enemy enemy = new Enemy(this, 50, enemyPos, enemySize, 2.0f + (i * 0.2f));
+          enemies.add(enemy);
+        }
       }
     }
   }
