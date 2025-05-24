@@ -2,7 +2,6 @@ package com.pewpewdungeons.world;
 
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.entities.GameObject;
-import com.pewpewdungeons.enums.DoorPositionEnum;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,13 +19,17 @@ public class DungeonGenerator {
   private final static float maxRoomHeight = 20.0f;
 
   // Corridor dimensions
-  private final static float corridorWidth = 3.0f;
+  private final static float corridorWidth = 2.0f;
 
   // Room spacing
   private final static float roomSpacing = 2.0f;
 
   // Max room distance
   private final static float maxRoomDistance = 7f;
+
+  // Amount of overlap between the corridors and the room to make sure
+  // the player isn't stuck
+  private final static float corridorRoomOverlap = 0.1f;
 
   // Generate a dungeonn layout with the specified number of rooms
   public static Dungeon generateDungeon(int roomCount) {
@@ -72,7 +75,58 @@ public class DungeonGenerator {
       int by0 = (int) (room1.getPosition().y);
       int by1 = (int) (room1.getPosition().y + room1.getSize().y);
 
-      // TODO connect rooms
+      Vector2 corridorPosition = new Vector2();
+      Vector2 corridorSize = new Vector2();
+
+      // if the rooms overlap in the y axis
+      if (by1 - ay0 >= corridorWidth && ay1 - by0 >= corridorWidth) {
+        corridorPosition.y = random.nextFloat(
+            Math.max(
+                ay0, by0),
+            Math.min(
+                ay1 - corridorWidth,
+                by1 - corridorWidth));
+
+        corridorSize.y = corridorWidth;
+
+        // if the second room is to the right of the first
+        if (ax1 < bx0) {
+          corridorSize.x = bx0 - ax1 + corridorRoomOverlap * 2;
+          corridorPosition.x = ax1 - corridorRoomOverlap;
+          // if the second room is to the left of the first
+        } else if (bx1 < ax0) {
+          corridorSize.x = ax0 - bx1 + corridorRoomOverlap * 2;
+          corridorPosition.x = bx1 - corridorRoomOverlap;
+        } else {
+          System.out.println("Overlapping rooms. Cannot connect with corridors.");
+        }
+        // if they overlap in the x axis
+      } else if (bx1 - ax0 >= corridorWidth && ax1 - by0 >= corridorWidth) {
+        corridorPosition.x = random.nextFloat(
+            Math.max(
+                ax0, bx0),
+            Math.min(
+                ax1 - corridorWidth,
+                bx1 - corridorWidth));
+
+        corridorSize.x = corridorWidth;
+
+        // if the second room is below the first
+        if (ay1 < by0) {
+          corridorSize.y = by0 - ay1 + corridorRoomOverlap * 2;
+          corridorPosition.y = ay1 - corridorRoomOverlap;
+          // if the second room is above the first
+        } else if (by1 < ay0) {
+          corridorSize.y = ay0 - by1 + corridorRoomOverlap * 2;
+          corridorPosition.y = by1 - corridorRoomOverlap;
+        } else {
+          System.out.println("Overlapping rooms. Cannot connect with corridors.");
+        }
+      } else {
+        System.out.println("Rooms cannot be connected with a straight horizontal or vertical corrior.");
+      }
+
+      rooms.add(new Room(corridorPosition, corridorSize, new HashSet<GameObject>()));
     }
 
     // Create the dungeon with generated rooms
@@ -81,7 +135,7 @@ public class DungeonGenerator {
 
   private static Vector2 calculateNextRoomPosition(Vector2 currentPos, Vector2 roomSize, Room lastRoom) {
     Vector2 nextPosition = new Vector2();
-    int direction = random.nextInt(8);
+    int direction = random.nextInt(3);
 
     // randomly place the room but still make sure that it follows
     // somewhat of a logical path and that the rooms don't overlap
