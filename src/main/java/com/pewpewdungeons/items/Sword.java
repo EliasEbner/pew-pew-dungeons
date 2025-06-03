@@ -11,7 +11,7 @@ import com.pewpewdungeons.world.Room;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
-public class Sword extends GameObject implements Weapon {
+public class Sword extends Weapon {
 
     protected float distanceFromPlayer;
     protected Player player;

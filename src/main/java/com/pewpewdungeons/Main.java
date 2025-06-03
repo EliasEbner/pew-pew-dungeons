@@ -1,5 +1,6 @@
 package com.pewpewdungeons;
 
+import com.pewpewdungeons.entities.Player;
 import static com.raylib.Jaylib.BLACK;
 import static com.raylib.Jaylib.RED;
 import static com.raylib.Jaylib.WHITE;
@@ -16,139 +17,147 @@ import static com.raylib.Raylib.KEY_R;
 import static com.raylib.Raylib.SetTargetFPS;
 import static com.raylib.Raylib.WindowShouldClose;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
 import com.pewpewdungeons.world.Dungeon;
 import com.pewpewdungeons.world.DungeonGenerator;
 import com.raylib.Raylib;
 import com.raylib.Raylib.Camera2D;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.LinkedList;
 
 public final class Main {
 
-  static Vector2 mousePosition;
-  static Vector2 mouseWorldPosition;
+    static Vector2 mousePosition;
+    static Vector2 mouseWorldPosition;
 
-  // Only for Debug
-  public static List<String> debugOutput = new LinkedList<>();
+    static int screenWidth = 1280;
+    static int screenHeight = 720;
 
-  public static Vector2 getMousePosition() {
-    return mousePosition;
-  }
+    // Only for Debug
+    public static List<String> debugOutput = new LinkedList<>();
 
-  public static Vector2 getMouseWorldPosition() {
-    return new Vector2(mouseWorldPosition);
-  }
-
-  public static void main(String[] args) {
-    int screenWidth = 1280;
-    int screenHeight = 720;
-
-    for (int i = 0; i < args.length; i++) {
-      String arg = args[i];
-
-      if (arg.equals("-screenWidth")) {
-        assert i + 1 < args.length;
-        screenWidth = Integer.parseInt(args[++i]);
-      } else if (arg.equals("-screenHeight")) {
-        assert i + 1 < args.length;
-        screenHeight = Integer.parseInt(args[++i]);
-      } else {
-        System.out.println("Unknown argument " + arg);
-      }
+    public static Vector2 getMousePosition() {
+        return mousePosition;
     }
 
-    InitWindow(screenWidth, screenHeight, "Pew-Pew-Dungeons");
-    SetTargetFPS(60);
+    public static Vector2 getMouseWorldPosition() {
+        return new Vector2(mouseWorldPosition);
+    }
 
-    float screenAspect = (float) screenWidth / (float) screenHeight;
-    float viewWidthInWorldSpaceUnits = 40;
-    float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
+    public static int getScreenWidth() {
+        return screenWidth;
+    }
 
-    // Generate a dungeon with 5 rooms
-    Dungeon dungeon = DungeonGenerator.generateDungeon(5);
+    public static int getScreenHeight() {
+        return screenHeight;
+    }
 
-    // Set the dungeon in the ProjectileSystem
-    ProjectileSystem.setDungeon(dungeon);
+    public static void main(String[] args) {
 
-    Vector2 cameraOffset = new Vector2((float) screenWidth / 2, (float) screenHeight / 2);
-    Vector2 cameraTarget; // in world-space.
-    float cameraZoom;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
 
-    Camera2D nativeCamera = new Camera2D();
+            if (arg.equals("-screenWidth")) {
+                assert i + 1 < args.length;
+                screenWidth = Integer.parseInt(args[++i]);
+            } else if (arg.equals("-screenHeight")) {
+                assert i + 1 < args.length;
+                screenHeight = Integer.parseInt(args[++i]);
+            } else {
+                System.out.println("Unknown argument " + arg);
+            }
+        }
 
-    while (!WindowShouldClose()) {
-      // Get player position for camera centering
-      Player player = dungeon.getPlayer();
-      if (player != null) {
-        cameraTarget = player.getPosition();
-      } else {
-        cameraTarget = new Vector2(viewWidthInWorldSpaceUnits / 2, viewHeightInWorldSpaceUnits / 2);
-      }
+        InitWindow(screenWidth, screenHeight, "Pew-Pew-Dungeons");
+        SetTargetFPS(60);
 
-      cameraZoom = (float) screenWidth / viewWidthInWorldSpaceUnits;
+        float screenAspect = (float) screenWidth / (float) screenHeight;
+        float viewWidthInWorldSpaceUnits = 40;
+        float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
 
-      // Setup native camera.
-      try (Raylib.Vector2 nativeCameraOffset = cameraOffset.toNative()) {
-        nativeCamera.offset(nativeCameraOffset);
-      }
-      try (Raylib.Vector2 nativeCameraTarget = cameraTarget.toNative()) {
-        nativeCamera.target(nativeCameraTarget);
-      }
-      nativeCamera.zoom(cameraZoom);
+        // Generate a dungeon with 5 rooms
+        Dungeon dungeon = DungeonGenerator.generateDungeon(5);
 
-      // Get screen and world-space position of mouse.
-      {
-        Raylib.Vector2 pos = Raylib.GetMousePosition();
-        Raylib.Vector2 posWS = GetScreenToWorld2D(pos, nativeCamera);
-
-        mousePosition = Vector2.fromNative(pos);
-        mouseWorldPosition = Vector2.fromNative(posWS);
-
-        pos.close();
-        posWS.close();
-      }
-
-      // We'll want to pass this down for cool time effects.
-      float deltaTime = Raylib.GetFrameTime();
-
-      // Update.
-      dungeon.update(deltaTime);
-      ProjectileSystem.update(deltaTime);
-
-      // Check for restart
-      if (Raylib.IsKeyPressed(KEY_R)) {
-        // Generate new dungeon
-        dungeon = DungeonGenerator.generateDungeon(5);
-        ProjectileSystem.reset();
+        // Set the dungeon in the ProjectileSystem
         ProjectileSystem.setDungeon(dungeon);
-      }
 
-      // Draw.
-      BeginDrawing();
-      ClearBackground(BLACK);
+        Vector2 cameraOffset = new Vector2((float) screenWidth / 2, (float) screenHeight / 2);
+        Vector2 cameraTarget; // in world-space.
+        float cameraZoom;
 
-      BeginMode2D(nativeCamera);
-      dungeon.draw();
-      ProjectileSystem.draw();
+        Camera2D nativeCamera = new Camera2D();
 
-      EndMode2D();
+        while (!WindowShouldClose()) {
+            // Get player position for camera centering
+            Player player = dungeon.getPlayer();
+            if (player != null) {
+                cameraTarget = player.getPosition();
+            } else {
+                cameraTarget = new Vector2(viewWidthInWorldSpaceUnits / 2, viewHeightInWorldSpaceUnits / 2);
+            }
 
-      // Draw game instructions
-      DrawText("WASD: Move", 10, 10, 20, WHITE);
-      DrawText("Left Mouse Button: Shoot", 10, 40, 20, WHITE);
-      DrawText("R: Restart", 10, 70, 20, WHITE);
+            cameraZoom = (float) screenWidth / viewWidthInWorldSpaceUnits;
 
-      // Debug Output
-      while (debugOutput.size() > 5)
-        debugOutput.removeFirst();
-      for (int i = 0; i < debugOutput.size(); i++)
-        DrawText("Debug: " + debugOutput.get(i), 10, 120 + i * 10, 10, RED);
+            // Setup native camera.
+            try (Raylib.Vector2 nativeCameraOffset = cameraOffset.toNative()) {
+                nativeCamera.offset(nativeCameraOffset);
+            }
+            try (Raylib.Vector2 nativeCameraTarget = cameraTarget.toNative()) {
+                nativeCamera.target(nativeCameraTarget);
+            }
+            nativeCamera.zoom(cameraZoom);
 
-      EndDrawing();
+            // Get screen and world-space position of mouse.
+            {
+                Raylib.Vector2 pos = Raylib.GetMousePosition();
+                Raylib.Vector2 posWS = GetScreenToWorld2D(pos, nativeCamera);
+
+                mousePosition = Vector2.fromNative(pos);
+                mouseWorldPosition = Vector2.fromNative(posWS);
+
+                pos.close();
+                posWS.close();
+            }
+
+            // We'll want to pass this down for cool time effects.
+            float deltaTime = Raylib.GetFrameTime();
+
+            // Update.
+            dungeon.update(deltaTime);
+            ProjectileSystem.update(deltaTime);
+
+            // Check for restart
+            if (Raylib.IsKeyPressed(KEY_R)) {
+                // Generate new dungeon
+                dungeon = DungeonGenerator.generateDungeon(5);
+                ProjectileSystem.reset();
+                ProjectileSystem.setDungeon(dungeon);
+            }
+
+            // Draw.
+            BeginDrawing();
+            ClearBackground(BLACK);
+
+            BeginMode2D(nativeCamera);
+            dungeon.draw();
+            ProjectileSystem.draw();
+
+            EndMode2D();
+
+            // Draw game instructions
+            DrawText("WASD: Move", 10, 10, 20, WHITE);
+            DrawText("Left Mouse Button: Shoot", 10, 40, 20, WHITE);
+            DrawText("R: Restart", 10, 70, 20, WHITE);
+
+            // Debug Output
+            while (debugOutput.size() > 5)
+                debugOutput.removeFirst();
+            for (int i = 0; i < debugOutput.size(); i++)
+                DrawText("Debug: " + debugOutput.get(i), 10, 120 + i * 10, 10, RED);
+
+            EndDrawing();
+        }
+        CloseWindow();
     }
-    CloseWindow();
-  }
 }

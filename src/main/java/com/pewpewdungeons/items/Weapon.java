@@ -1,5 +1,7 @@
 package com.pewpewdungeons.items;
 
-public interface Weapon {
-    void shoot();
+import com.pewpewdungeons.entities.GameObject;
+
+public abstract class Weapon extends GameObject {
+    public abstract void shoot();
 }

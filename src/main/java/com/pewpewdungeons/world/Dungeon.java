@@ -98,12 +98,13 @@ public final class Dungeon extends GameObject {
   @Override
   public void update(float deltaTime) {
     this.rooms.forEach(room -> room.update(deltaTime));
-    this.player.update(deltaTime);
 
     // Update all enemies
     for (Enemy enemy : enemies) {
       enemy.update(deltaTime);
     }
+
+    this.player.update(deltaTime);
 
     // Check if player reached the exit
     if (!exitReached && !player.isDead()) {
