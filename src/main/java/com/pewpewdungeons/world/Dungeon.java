@@ -8,6 +8,9 @@ import com.pewpewdungeons.entities.Enemy;
 import com.pewpewdungeons.entities.GameObject;
 import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.entities.Updatable;
+import com.pewpewdungeons.entities.enemies.RangedEnemy;
+import com.pewpewdungeons.entities.enemies.RunnerEnemy;
+import com.pewpewdungeons.entities.enemies.TankEnemy;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
@@ -64,7 +67,7 @@ public final class Dungeon extends GameObject {
       for (int j = 0; j < enemyCount; j++) {
         // Try to find a valid position for the enemy
         Vector2 enemyPos = null;
-        Vector2 enemySize = new Vector2(1, 1);
+        Vector2 enemySize = new Vector2(1, 1); // Default size, will be overwritten by enemy constructor
         int attempts = 0;
         final int maxAttempts = 50; // Limit attempts to prevent infinite loops
 
@@ -85,9 +88,27 @@ public final class Dungeon extends GameObject {
           }
         }
 
-        // If we found a valid position, create the enemy
+        // If we found a valid position, create a random enemy type
         if (enemyPos != null) {
-          Enemy enemy = new Enemy(this, 50, enemyPos, enemySize, 2.0f + (i * 0.2f));
+          int enemyType = random.nextInt(4); // 0: Normal, 1: Tank, 2: Runner, 3: Ranged
+          Enemy enemy;
+          switch (enemyType) {
+            case 0:
+              enemy = new Enemy(this, 50, enemyPos, new Vector2(1, 1), 2.0f + (i * 0.2f));
+              break;
+            case 1:
+              enemy = new TankEnemy(this, enemyPos);
+              break;
+            case 2:
+              enemy = new RunnerEnemy(this, enemyPos);
+              break;
+            case 3:
+              enemy = new RangedEnemy(this, enemyPos);
+              break;
+            default:
+              enemy = new Enemy(this, 50, enemyPos, new Vector2(1, 1), 2.0f + (i * 0.2f));
+              break;
+          }
           enemies.add(enemy);
         }
       }

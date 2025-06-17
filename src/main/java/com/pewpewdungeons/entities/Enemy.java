@@ -10,14 +10,14 @@ import com.raylib.Raylib;
 
 public class Enemy extends GameObject implements AutoMovable {
 
-  private double health;
-  private Inventory inventory;
-  private Dungeon dungeon;
-  private float attackCooldown = 0;
-  private float attackCooldownMax = 1.0f; // 1 second between attacks
-  private float attackRange = 1.5f;
-  private float attackDamage = 10.0f;
-  private float detectionRange = 8.0f;
+  protected double health;
+  protected Inventory inventory;
+  protected Dungeon dungeon;
+  protected float attackCooldown = 0;
+  protected float attackCooldownMax = 1.0f; // 1 second between attacks
+  protected float attackRange = 1.5f;
+  protected float attackDamage = 10.0f;
+  protected float detectionRange = 8.0f;
 
   public Enemy(Dungeon dungeon, double health, Vector2 position, Vector2 size, float speed) {
     this.dungeon = dungeon;
@@ -26,6 +26,11 @@ public class Enemy extends GameObject implements AutoMovable {
     this.size = size;
     this.speed = speed;
     this.collider = new RectangleCollider(position, size);
+  }
+
+  protected boolean canMoveTo(Vector2 newPos) {
+    RectangleCollider tempCollider = new RectangleCollider(newPos, size);
+    return this.dungeon.contains(tempCollider) && !this.dungeon.collidesWithObjectInRoom(tempCollider);
   }
 
   @Override
@@ -46,9 +51,8 @@ public class Enemy extends GameObject implements AutoMovable {
       // Try to move
       Vector2 newPos = new Vector2(position);
       newPos.add(direction);
-      RectangleCollider tempCollider = new RectangleCollider(newPos, size);
-
-      if (this.dungeon.contains(tempCollider) && !this.dungeon.collidesWithObjectInRoom(tempCollider)) {
+      
+      if (canMoveTo(newPos)) {
         this.position = newPos;
         // Update the collider position to match the new position
         this.collider.position = new Vector2(newPos);
@@ -88,7 +92,7 @@ public class Enemy extends GameObject implements AutoMovable {
     }
   }
 
-  private void attackPlayer(Player player) {
+  protected void attackPlayer(Player player) {
     player.takeDamage(attackDamage);
   }
 
