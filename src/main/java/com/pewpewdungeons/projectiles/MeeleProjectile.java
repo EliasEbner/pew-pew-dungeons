@@ -30,8 +30,10 @@ public class MeeleProjectile extends Projectile {
         this.size = new Vector2(size);
         this.radius = radius;
 
-        // Start angle at 0 or facing right
-        this.angle = 0f;
+        // Start angle facing the mouse cursor
+        Vector2 direction = Main.getMouseWorldPosition();
+        direction.sub(player.getCenterPosition());
+        this.angle = direction.angle(direction);
 
         // Initial position and collider
         Vector2 playerPos = player.getCenterPosition();

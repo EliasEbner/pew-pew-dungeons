@@ -13,49 +13,45 @@ import com.raylib.Raylib;
 
 public class Sword extends Weapon {
 
-    protected float distanceFromPlayer;
     protected Player player;
-    protected Raylib.Color color = Jaylib.BLUE;
-
-    protected double lastShotTime = GetTime();
-    protected double shootingDelay = 0.5;
+    protected double lastSwingTime = 0;
+    protected double swingCooldown = 0.5; // Cooldown in seconds
+    protected float swingRange = 1.5f; // The distance from player the sword hitbox appears
+    protected Vector2 swingSize = new Vector2(2.0f, 2.0f); // width and height of hitbox
 
     public Sword(Vector2 size, float distanceFromPlayer, Player player) {
-        this.size = new Vector2(2f, 2f); // store sword hitbox size
-        this.distanceFromPlayer = 0f;
+        this.size = size;
         this.player = player;
     }
 
     protected boolean canShoot() {
-        return GetTime() > lastShotTime + shootingDelay;
+        return GetTime() > lastSwingTime + swingCooldown;
     }
 
     @Override
     public void shoot() {
         if (!canShoot()) return;
 
-        // Example: swing at fixed radius from player center
         MeeleProjectile slash = new MeeleProjectile(
             player,
-            new Vector2(2, 1),  // size of the sword hitbox (width, height)
-            0                    // distance from player center (radius)
+            swingSize,
+            swingRange
         );
 
         ProjectileSystem.createProjectile(slash);
-        lastShotTime = GetTime();
+        lastSwingTime = GetTime();
     }
 
     @Override
     public void update(float dt) {
-        // Update sword orientation to face the mouse - store it somewhere if needed
-        Vector2 dir = Main.getMouseWorldPosition();
-        dir.sub(player.getCenterPosition());
-        dir.normalize();
-        this.orientation = dir;  // assuming Sword has an orientation field you want to keep
+        // The sword itself doesn't need much update logic,
+        // the MeeleProjectile handles the swing animation and collision.
     }
 
     @Override
     public void draw() {
-        // TODO optional draw the sword
+        // The MeeleProjectile handles drawing the swing.
+        // We could draw the sword on the player's back or side here
+        // if we had sprites. For now, nothing is needed.
     }
 }

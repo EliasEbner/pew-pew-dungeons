@@ -9,6 +9,7 @@ import com.pewpewdungeons.world.Dungeon;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
+import java.util.List;
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.collider.RectangleCollider;
 
@@ -21,7 +22,9 @@ public class Player extends GameObject {
     private double maxHealth;
     private double mana;
     private PlayerInventory inventory;
-    private Weapon equippedWeapon = new ShotGun(new Vector2(0.5f, 0.25f), 1.2f, this);
+    private List<Weapon> weapons;
+    private int equippedWeaponIndex = 0;
+    private Weapon equippedWeapon;
     private boolean isDead = false;
     private float invulnerabilityTime = 0; // Time player is invulnerable after taking damage
     private float invulnerabilityDuration = 1.0f; // 1 second of invulnerability
@@ -33,7 +36,14 @@ public class Player extends GameObject {
         this.position = position;
         this.size = size;
         this.speed = speed;
-        this.inventory = new PlayerInventory(new ArrayList<Weapon>(), 0);
+
+        weapons = new ArrayList<>();
+        weapons.add(new ShotGun(new Vector2(0.5f, 0.25f), 1.2f, this));
+        weapons.add(new BurstGun(new Vector2(0.5f, 0.25f), 1.2f, this));
+        weapons.add(new Sword(new Vector2(0.5f, 0.25f), 1.2f, this));
+        equippedWeapon = weapons.get(equippedWeaponIndex);
+
+        this.inventory = new PlayerInventory(weapons, 0);
 
         this.collider = new RectangleCollider(position, size);
         this.dungeon = dungeon;
@@ -110,6 +120,17 @@ public class Player extends GameObject {
             equippedWeapon.shoot();
         }
 
+        // Weapon switching
+        if (Raylib.IsKeyPressed(KEY_ONE)) {
+            switchWeapon(0);
+        }
+        if (Raylib.IsKeyPressed(KEY_TWO)) {
+            switchWeapon(1);
+        }
+        if (Raylib.IsKeyPressed(KEY_THREE)) {
+            switchWeapon(2);
+        }
+
         if (equippedWeapon != null)
             if (equippedWeapon instanceof Updatable u)
                 u.update(dt);
@@ -120,6 +141,14 @@ public class Player extends GameObject {
 
         if (inventory instanceof Updatable)
             inventory.update(dt);
+    }
+
+    private void switchWeapon(int index) {
+        if (index >= 0 && index < weapons.size()) {
+            equippedWeaponIndex = index;
+            equippedWeapon = weapons.get(equippedWeaponIndex);
+            Main.debugOutput.add("Switched to weapon " + (index + 1));
+        }
     }
 
     public void takeDamage(float damage) {
