@@ -1,17 +1,17 @@
 package com.pewpewdungeons.entities;
 
+import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.core.Drawable;
 import com.pewpewdungeons.items.*;
 import com.pewpewdungeons.items.inventory.PlayerInventory;
+import com.pewpewdungeons.management.InputManager;
 import com.pewpewdungeons.world.Dungeon;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
 import java.util.List;
-import com.pewpewdungeons.Main;
-import com.pewpewdungeons.collider.RectangleCollider;
 
 import static com.raylib.Raylib.*;
 
@@ -89,6 +89,8 @@ public class Player extends GameObject {
         if (isDead)
             return;
 
+        InputManager inputManager = InputManager.getInstance();
+
         // Update invulnerability time
         if (invulnerabilityTime > 0) {
             invulnerabilityTime -= dt;
@@ -96,16 +98,16 @@ public class Player extends GameObject {
 
         float dx = 0;
         float dy = 0;
-        float v = this.speed * Raylib.GetFrameTime();
+        float v = this.speed * dt;
 
-        if (Raylib.IsKeyDown(KEY_A))
+        if (inputManager.isKeyDown(KEY_A))
             dx -= v;
-        if (Raylib.IsKeyDown(KEY_D))
+        if (inputManager.isKeyDown(KEY_D))
             dx += v;
 
-        if (Raylib.IsKeyDown(KEY_W))
+        if (inputManager.isKeyDown(KEY_W))
             dy -= v;
-        if (Raylib.IsKeyDown(KEY_S))
+        if (inputManager.isKeyDown(KEY_S))
             dy += v;
 
         RectangleCollider tempCollider = new RectangleCollider(new Vector2(this.position.x + dx, this.position.y + dy),
@@ -115,19 +117,19 @@ public class Player extends GameObject {
             this.position.add(dx, dy);
         }
 
-        if (Raylib.IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        if (inputManager.isMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             Main.debugOutput.add("Shot fired");
             equippedWeapon.shoot();
         }
 
         // Weapon switching
-        if (Raylib.IsKeyPressed(KEY_ONE)) {
+        if (inputManager.isKeyPressed(KEY_ONE)) {
             switchWeapon(0);
         }
-        if (Raylib.IsKeyPressed(KEY_TWO)) {
+        if (inputManager.isKeyPressed(KEY_TWO)) {
             switchWeapon(1);
         }
-        if (Raylib.IsKeyPressed(KEY_THREE)) {
+        if (inputManager.isKeyPressed(KEY_THREE)) {
             switchWeapon(2);
         }
 
@@ -136,7 +138,7 @@ public class Player extends GameObject {
                 u.update(dt);
 
         // Inventory
-        if (Raylib.IsKeyReleased(KEY_E))
+        if (inputManager.isKeyReleased(KEY_E))
             inventory.use();
 
         if (inventory instanceof Updatable)
