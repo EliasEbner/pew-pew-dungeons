@@ -1,6 +1,7 @@
 package com.pewpewdungeons.world;
 
 import com.pewpewdungeons.Vector2;
+import com.pewpewdungeons.logging.GameLogger;
 import com.pewpewdungeons.entities.GameObject;
 import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.enums.DoorOrientationEnum;
@@ -35,6 +36,7 @@ public class DungeonGenerator {
 
   // Generate a dungeonn layout with the specified number of rooms
   public static Dungeon generateDungeon(int roomCount) {
+    GameLogger.World.info("Generating dungeon with {} rooms", roomCount);
     List<Room> rooms = new ArrayList<>();
 
     // Generate rooms in a somewhat linear path
@@ -105,7 +107,7 @@ public class DungeonGenerator {
           corridorSize.x = ax0 - bx1;
           corridorPosition.x = bx1;
         } else {
-          System.out.println("Overlapping rooms. Cannot connect with corridors.");
+          GameLogger.World.warn("Overlapping rooms in X-axis, cannot connect with corridors");
         }
 
         objectsInCorridor
@@ -131,19 +133,20 @@ public class DungeonGenerator {
           corridorSize.y = ay0 - by1;
           corridorPosition.y = by1;
         } else {
-          System.out.println("Overlapping rooms. Cannot connect with corridors.");
+          GameLogger.World.warn("Overlapping rooms in Y-axis, cannot connect with corridors");
         }
 
         objectsInCorridor
             .add(new Door(dungeon.getPlayer(), corridorPosition, corridorSize, DoorOrientationEnum.HORIZONTAL));
       } else {
-        System.out.println("Rooms cannot be connected with a straight horizontal or vertical corrior.");
+        GameLogger.World.warn("Rooms cannot be connected with a straight horizontal or vertical corridor");
       }
 
       dungeon.addRoom(new Room(corridorPosition, corridorSize, objectsInCorridor));
     }
 
     // Create the dungeon with generated rooms
+    GameLogger.World.info("Dungeon generation complete with {} total rooms", dungeon.getRooms().size());
     return dungeon;
   }
 

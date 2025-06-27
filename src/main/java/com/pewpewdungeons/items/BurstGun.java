@@ -4,6 +4,7 @@ import static com.raylib.Raylib.GetTime;
 
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
+import com.pewpewdungeons.logging.GameLogger;
 import com.pewpewdungeons.entities.Player;
 import com.pewpewdungeons.projectiles.BulletProjectile;
 import com.pewpewdungeons.projectiles.ProjectileSystem;
@@ -26,6 +27,7 @@ public class BurstGun extends Gun {
     public void shoot() {
         if(isFiringBurst || !canShoot()) return; // Prevent overlapping bursts
 
+        GameLogger.logWeaponEvent("BurstGun", "Starting burst fire");
         isFiringBurst = true;
 
         new Thread(() -> {
@@ -44,7 +46,8 @@ public class BurstGun extends Gun {
                     }
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                GameLogger.error("BurstGun firing thread interrupted", e);
+                Thread.currentThread().interrupt(); // Restore interrupted status
             } finally {
                 isFiringBurst = false;
                 lastShotTime = GetTime();

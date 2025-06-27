@@ -2,6 +2,7 @@ package com.pewpewdungeons.projectiles;
 
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
+import com.pewpewdungeons.logging.GameLogger;
 import com.pewpewdungeons.collider.CircleCollider;
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.entities.Enemy;
@@ -66,7 +67,7 @@ public class BulletProjectile extends Projectile {
                 if (collider.intersects(enemy.getCollider())) {
                     enemy.takeDamage(damage);
                     hasHit = true;
-                    Main.debugOutput.add("Enemy hit");
+                    GameLogger.logProjectileEvent("BulletProjectile", "Hit enemy for " + damage + " damage");
                     ProjectileSystem.removeProjectile(this);
                     break;
                 }
@@ -74,11 +75,15 @@ public class BulletProjectile extends Projectile {
         } else {
             // Bullet hit a wall
             hasHit = true;
+            GameLogger.Projectiles.debug("BulletProjectile hit wall");
             ProjectileSystem.removeProjectile(this);
         }
 
         // Remove bullet after a certain time
-        if (this.t > 1) ProjectileSystem.removeProjectile(this);
+        if (this.t > 1) {
+            GameLogger.Projectiles.debug("BulletProjectile expired after 1 second");
+            ProjectileSystem.removeProjectile(this);
+        }
     }
     
     public CircleCollider getCollider() {

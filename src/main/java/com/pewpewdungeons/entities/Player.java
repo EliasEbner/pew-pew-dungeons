@@ -1,6 +1,7 @@
 package com.pewpewdungeons.entities;
 
 import com.pewpewdungeons.Main;
+import com.pewpewdungeons.logging.GameLogger;
 import com.pewpewdungeons.Vector2;
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.core.Drawable;
@@ -54,6 +55,9 @@ public class Player extends GameObject {
 
         this.collider = new RectangleCollider(position, size);
         this.dungeon = dungeon;
+        
+        GameLogger.Entities.info("Player created at position ({}, {})", position.x, position.y);
+        GameLogger.logPlayerAction("Player spawned with " + weapons.size() + " weapons");
     }
 
     @Override
@@ -142,7 +146,7 @@ public class Player extends GameObject {
         }
 
         if (inputManager.isMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            Main.debugOutput.add("Shot fired");
+            GameLogger.logPlayerAction("Shot fired with " + equippedWeapon.getClass().getSimpleName());
             equippedWeapon.shoot();
         }
 
@@ -183,7 +187,7 @@ public class Player extends GameObject {
         if (index >= 0 && index < weapons.size()) {
             equippedWeaponIndex = index;
             equippedWeapon = weapons.get(equippedWeaponIndex);
-            Main.debugOutput.add("Switched to weapon " + (index + 1));
+            GameLogger.logPlayerAction("Switched to " + equippedWeapon.getClass().getSimpleName());
         }
     }
 
@@ -192,21 +196,26 @@ public class Player extends GameObject {
         if (invulnerabilityTime <= 0) {
             health -= damage;
             invulnerabilityTime = invulnerabilityDuration;
+            GameLogger.logPlayerAction(String.format("Took %.1f damage, health now %.1f/%.1f", 
+                damage, health, maxHealth));
 
             if (health <= 0) {
                 die();
             }
+        } else {
+            GameLogger.Entities.debug("Player avoided damage due to invulnerability");
         }
     }
 
     private void die() {
         isDead = true;
-        // You could trigger game over screen here
-        System.out.println("Player died!");
+        GameLogger.logPlayerAction("Player died");
+        GameLogger.logGameEvent("GAME_OVER: Player died");
     }
 
     private void teleport() {
         if (mana > 70) {
+            Vector2 oldPosition = new Vector2(position);
             // try 100 different positions if not working just exit
             for (int i = 0; i < 100; i++) {
                 float offsetX = rand.nextFloat(minTeleportRange, maxTeleportRange);
@@ -222,9 +231,14 @@ public class Player extends GameObject {
                 if (this.dungeon.contains(tempCollider) && !this.dungeon.collidesWithObjectInRoom(tempCollider)) {
                     setPosition(newPosition);
                     mana -= 70;
-                    break;
+                    GameLogger.logPlayerAction(String.format("Teleported from (%.1f, %.1f) to (%.1f, %.1f)", 
+                        oldPosition.x, oldPosition.y, newPosition.x, newPosition.y));
+                    return;
                 }
             }
+            GameLogger.logPlayerAction("Teleport failed - no valid position found");
+        } else {
+            GameLogger.logPlayerAction("Teleport failed - insufficient mana");
         }
     }
 
@@ -253,7 +267,10 @@ public class Player extends GameObject {
     }
 
     public void heal(double amount) {
+        double oldHealth = health;
         health = Math.min(maxHealth, health + amount);
+        GameLogger.logPlayerAction(String.format("Healed %.1f health (%.1f -> %.1f)", 
+            amount, oldHealth, health));
     }
 
     public PlayerInventory getInventory() {

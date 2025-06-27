@@ -1,6 +1,7 @@
 package com.pewpewdungeons;
 
 import com.pewpewdungeons.entities.Player;
+import com.pewpewdungeons.logging.GameLogger;
 import static com.raylib.Jaylib.BLACK;
 import static com.raylib.Jaylib.RED;
 import static com.raylib.Jaylib.WHITE;
@@ -50,8 +51,7 @@ public final class Main {
     static int screenWidth = 1280;
     static int screenHeight = 720;
 
-    // Only for Debug
-    public static List<String> debugOutput = new LinkedList<>();
+    // Replaced with proper logging system - see GameLogger class
 
     public static Vector2 getMousePosition() {
         return mousePosition;
@@ -113,10 +113,13 @@ public final class Main {
                 assert i + 1 < args.length;
                 screenHeight = Integer.parseInt(args[++i]);
             } else {
-                System.out.println("Unknown argument " + arg);
+                GameLogger.warn("Unknown command line argument: {}", arg);
             }
         }
 
+        GameLogger.info("Initializing Pew-Pew-Dungeons");
+        GameLogger.info("Screen resolution: {}x{}", screenWidth, screenHeight);
+        
         InitWindow(screenWidth, screenHeight, "Pew-Pew-Dungeons");
         SetTargetFPS(60);
 
@@ -125,10 +128,12 @@ public final class Main {
         float viewHeightInWorldSpaceUnits = viewWidthInWorldSpaceUnits / screenAspect;
 
         // Generate a dungeon with 5 rooms
+        GameLogger.info("Generating initial dungeon with 5 rooms");
         Dungeon dungeon = DungeonGenerator.generateDungeon(5);
 
         // Set the dungeon in the ProjectileSystem
         ProjectileSystem.setDungeon(dungeon);
+        GameLogger.info("Game initialization complete");
 
         InputManager inputManager = InputManager.getInstance();
 
@@ -175,14 +180,22 @@ public final class Main {
 
             // We'll want to pass this down for cool time effects.
             float deltaTime = Raylib.GetFrameTime();
+            
+            // Log performance metrics occasionally
+            if (System.currentTimeMillis() % 5000 < 16) { // Roughly every 5 seconds
+                GameLogger.logFrameTime(deltaTime);
+            }
 
             // Update.
+            GameLogger.startPerformanceTimer("game_update");
             dungeon.update(deltaTime);
             ProjectileSystem.update(deltaTime);
+            GameLogger.endPerformanceTimer("game_update");
 
             // Check for restart
             if (inputManager.isKeyPressed(KEY_R)) {
                 // Generate new dungeon
+                GameLogger.logGameEvent("Game restarted by player");
                 dungeon = DungeonGenerator.generateDungeon(5);
                 ProjectileSystem.reset();
                 ProjectileSystem.setDungeon(dungeon);
@@ -204,11 +217,7 @@ public final class Main {
             DrawText("R: Restart", 10, 70, 20, WHITE);
             DrawText("T: Teleport (70 Mana)", 10, 100, 20, WHITE);
 
-            // Debug Output
-            while (debugOutput.size() > 5)
-                debugOutput.removeFirst();
-            for (int i = 0; i < debugOutput.size(); i++)
-                DrawText("Debug: " + debugOutput.get(i), 10, 120 + i * 10, 10, RED);
+            // Debug output now handled by logging system - check logs/ directory
 
             EndDrawing();
         }

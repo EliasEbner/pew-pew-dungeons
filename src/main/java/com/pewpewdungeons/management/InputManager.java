@@ -3,6 +3,8 @@ package com.pewpewdungeons.management;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.pewpewdungeons.logging.GameLogger;
+
 public class InputManager {
     private static InputManager instance;
 
@@ -18,6 +20,7 @@ public class InputManager {
     public static InputManager getInstance() {
         if (instance == null) {
             instance = new InputManager();
+            GameLogger.Input.info("InputManager instance created");
         }
         return instance;
     }

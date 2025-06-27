@@ -2,6 +2,7 @@ package com.pewpewdungeons.projectiles;
 
 import com.pewpewdungeons.Main;
 import com.pewpewdungeons.Vector2;
+import com.pewpewdungeons.logging.GameLogger;
 import com.pewpewdungeons.collider.CircleCollider;
 import com.pewpewdungeons.collider.RectangleCollider;
 import com.pewpewdungeons.entities.Enemy;
@@ -54,6 +55,9 @@ public class MeeleProjectile extends Projectile {
 
         timeAlive += dt;
         if (hasHit || timeAlive > duration) {
+            if (timeAlive > duration) {
+                GameLogger.Projectiles.debug("MeeleProjectile expired after {} seconds", duration);
+            }
             ProjectileSystem.removeProjectile(this);
             return;
         }
@@ -78,7 +82,7 @@ public class MeeleProjectile extends Projectile {
             if (collider.collide(enemy.getCollider())) {
                 enemy.takeDamage(damage);
                 hasHit = true;
-                Main.debugOutput.add("Enemy slashed");
+                GameLogger.logProjectileEvent("MeeleProjectile", "Enemy slashed for " + damage + " damage");
                 ProjectileSystem.removeProjectile(this);
                 break;
             }
