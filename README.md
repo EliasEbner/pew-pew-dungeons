@@ -7,7 +7,7 @@ A 2D dungeon crawler game built in Java with procedurally generated dungeons, mu
 - **Member 1**: Tobias - GitHub: [@optobimus](https://github.com/optobimus)
 - **Member 2**: Elias - GitHub: [@EliasEbner](https://github.com/EliasEbner)
 - **Member 3**: Nicholas - GitHub: [@hgoschuetz](https://github.com/hgoschuetz)
-- **Member 4**: Thomas - GitHub: [@Tomsbax](https://github.com/Tomsbax)
+- **Member 4**: Tomi - GitHub: [@Tomsbax](https://github.com/Tomsbax)
 
 ## Project Description
 
@@ -192,7 +192,7 @@ The project follows an object-oriented design with clear separation of concerns:
     - Logging Infrastructure: Created centralized logging system (separate loggers for different systems)
 - **Member 2**: Elias - Responsibilities:
 - **Member 3**: Nicholas - Responsibilities:
-- **Member 4**: Thomas - Responsibilities:
+- **Member 4**: Tomi - Responsibilities:
 
 ### Git Usage
 
@@ -213,7 +213,7 @@ The project follows an object-oriented design with clear separation of concerns:
 #### Member 3 Challenges - Nicholas
 - [Specific challenge and how it was overcome]
 
-#### Member 4 Challenges - Thomas
+#### Member 4 Challenges - Tomi
 - [Specific challenge and how it was overcome]
 
 ### Technical Challenges Overcome
