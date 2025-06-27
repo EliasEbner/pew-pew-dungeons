@@ -28,6 +28,7 @@ import static com.raylib.Raylib.KEY_THREE;
 import static com.raylib.Raylib.KEY_TWO;
 import static com.raylib.Raylib.KEY_W;
 import static com.raylib.Raylib.MOUSE_BUTTON_LEFT;
+import static com.raylib.Raylib.KEY_T;
 import static com.raylib.Raylib.SetTargetFPS;
 import static com.raylib.Raylib.WindowShouldClose;
 
@@ -70,7 +71,7 @@ public final class Main {
 
     private static void updateInputs(InputManager inputManager) {
         // --- Keyboard ---
-        int[] keys = { KEY_A, KEY_D, KEY_W, KEY_S, KEY_ONE, KEY_TWO, KEY_THREE, KEY_E, KEY_R };
+        int[] keys = { KEY_A, KEY_D, KEY_W, KEY_S, KEY_ONE, KEY_TWO, KEY_THREE, KEY_E, KEY_R, KEY_T };
         for (int key : keys) {
             if (IsKeyDown(key)) {
                 inputManager.setKeyDown(key);
@@ -201,6 +202,7 @@ public final class Main {
             DrawText("WASD: Move", 10, 10, 20, WHITE);
             DrawText("Left Mouse Button: Shoot", 10, 40, 20, WHITE);
             DrawText("R: Restart", 10, 70, 20, WHITE);
+            DrawText("T: Teleport (70 Mana)", 10, 100, 20, WHITE);
 
             // Debug Output
             while (debugOutput.size() > 5)

@@ -106,6 +106,7 @@ public class Enemy extends GameObject implements AutoMovable {
   private void destroy() {
     // Add death logic (e.g., drop items)
     dungeon.removeEnemy(this);
+    dungeon.getPlayer().heal(20);
   }
 
   public double getHealth() {

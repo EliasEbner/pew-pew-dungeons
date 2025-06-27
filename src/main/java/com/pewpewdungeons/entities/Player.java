@@ -12,6 +12,7 @@ import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.raylib.Raylib.*;
 
@@ -21,6 +22,8 @@ public class Player extends GameObject {
     private double health;
     private double maxHealth;
     private double mana;
+    private double maxMana;
+    private float manaRegen = 5.0f;
     private PlayerInventory inventory;
     private List<Weapon> weapons;
     private int equippedWeaponIndex = 0;
@@ -28,11 +31,15 @@ public class Player extends GameObject {
     private boolean isDead = false;
     private float invulnerabilityTime = 0; // Time player is invulnerable after taking damage
     private float invulnerabilityDuration = 1.0f; // 1 second of invulnerability
+    private float minTeleportRange = 10f;
+    private float maxTeleportRange = 20f;
+    private Random rand = new Random();
 
     public Player(Dungeon dungeon, double health, double mana, Vector2 position, Vector2 size, float speed) {
         this.health = health;
         this.maxHealth = health;
         this.mana = mana;
+        this.maxMana = mana;
         this.position = position;
         this.size = size;
         this.speed = speed;
@@ -64,7 +71,7 @@ public class Player extends GameObject {
                 d.draw();
 
         // Draw health bar above player
-        Vector2 healthBarPos = new Vector2(position.x, position.y - 0.5f);
+        Vector2 healthBarPos = new Vector2(position.x, position.y - 0.8f);
         Vector2 healthBarSize = new Vector2(size.x, 0.2f);
 
         // Health bar background
@@ -74,10 +81,27 @@ public class Player extends GameObject {
         }
 
         // Health bar fill
-        Vector2 fillSize = new Vector2((float) (healthBarSize.x * (health / maxHealth)), healthBarSize.y);
+        Vector2 healthfillSize = new Vector2((float) (healthBarSize.x * (health / maxHealth)), healthBarSize.y);
         try (Raylib.Vector2 barPos = healthBarPos.toNative();
-                Raylib.Vector2 barSize = fillSize.toNative()) {
+                Raylib.Vector2 barSize = healthfillSize.toNative()) {
             Raylib.DrawRectangleV(barPos, barSize, Jaylib.GREEN);
+        }
+
+        // Draw Mana bar above player
+        Vector2 manaBarPos = new Vector2(position.x, position.y - 0.5f);
+        Vector2 manaBarSize = new Vector2(size.x, 0.2f);
+
+        // Mana bar background
+        try (Raylib.Vector2 barPos = manaBarPos.toNative();
+                Raylib.Vector2 barSize = manaBarSize.toNative()) {
+            Raylib.DrawRectangleV(barPos, barSize, Jaylib.DARKGRAY);
+        }
+
+        // Mana bar fill
+        Vector2 manafillSize = new Vector2((float) (manaBarSize.x * (mana / maxMana)), manaBarSize.y);
+        try (Raylib.Vector2 barPos = manaBarPos.toNative();
+                Raylib.Vector2 barSize = manafillSize.toNative()) {
+            Raylib.DrawRectangleV(barPos, barSize, Jaylib.BLUE);
         }
 
         if (inventory != null && inventory instanceof Drawable)
@@ -143,6 +167,16 @@ public class Player extends GameObject {
 
         if (inventory instanceof Updatable)
             inventory.update(dt);
+
+        if (inputManager.isKeyPressed(KEY_T))
+            teleport();
+
+        // regenerate mana
+        if (mana < 100)
+            mana += manaRegen * dt;
+
+        // update collider position
+        collider.position = this.position;
     }
 
     private void switchWeapon(int index) {
@@ -171,6 +205,29 @@ public class Player extends GameObject {
         System.out.println("Player died!");
     }
 
+    private void teleport() {
+        if (mana > 70) {
+            // try 100 different positions if not working just exit
+            for (int i = 0; i < 100; i++) {
+                float offsetX = rand.nextFloat(minTeleportRange, maxTeleportRange);
+                float offsetY = rand.nextFloat(minTeleportRange, maxTeleportRange);
+
+                if (rand.nextBoolean()) offsetX = -offsetX;
+                if (rand.nextBoolean()) offsetY = -offsetY;
+
+                Vector2 newPosition = new Vector2(position.x + offsetX, position.y + offsetY);
+
+                RectangleCollider tempCollider = new RectangleCollider(newPosition, this.size);
+
+                if (this.dungeon.contains(tempCollider) && !this.dungeon.collidesWithObjectInRoom(tempCollider)) {
+                    setPosition(newPosition);
+                    mana -= 70;
+                    break;
+                }
+            }
+        }
+    }
+
     public boolean isDead() {
         return isDead;
     }
@@ -178,6 +235,10 @@ public class Player extends GameObject {
     @Override
     public Vector2 getPosition() {
         return new Vector2(position);
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
     @Override
