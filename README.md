@@ -201,23 +201,24 @@ The project follows an object-oriented design with clear separation of concerns:
 
 ### Challenges Faced
 
-#### Member 1 Challenges - Tobias
+#### Challenges - Tobias
 - Native Library Integration Challenge - Integrating Raylib through Jaylib
 - Prodecural Generation Algorithm  - Creating connected dungeon layouts without overlapping rooms
 - Performance & Debugging - Comprehensive logging system with multiple log levels
 - System integration challenge - Coordinating multiple complex systems an package structure
 
-#### Member 2 Challenges - Elias
-- Also worked on procedural generation
-- Created rooms which separate the rooms
+#### Challenges - Elias
+- Created initial prototype of dungeon generation algorithm and room connections
+- Implemented sliding doors which separate the rooms
 - Initial boilerplate (player movement and other basic things)
+- Helped work on the gun's rotation (gun points to the mouse cursor)
 - Collisions with rooms / dungeons
-- Main challenge: optimizing the collision algorithm (don't check all rooms, only check rooms near the player
+- Main challenge: optimizing the collision algorithm (don't check all rooms, only check rooms near the player)
 
-#### Member 3 Challenges - Nicholas
+#### Challenges - Nicholas
 - [Specific challenge and how it was overcome]
 
-#### Member 4 Challenges - Tomi
+#### Challenges - Tomi
 - [Specific challenge and how it was overcome]
 
 ### Technical Challenges Overcome
