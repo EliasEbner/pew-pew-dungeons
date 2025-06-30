@@ -208,7 +208,11 @@ The project follows an object-oriented design with clear separation of concerns:
 - System integration challenge - Coordinating multiple complex systems an package structure
 
 #### Member 2 Challenges - Elias
-- [Specific challenge and how it was overcome]
+- Also worked on procedural generation
+- Created rooms which separate the rooms
+- Initial boilerplate (player movement and other basic things)
+- Collisions with rooms / dungeons
+- Main challenge: optimizing the collision algorithm (don't check all rooms, only check rooms near the player
 
 #### Member 3 Challenges - Nicholas
 - [Specific challenge and how it was overcome]
