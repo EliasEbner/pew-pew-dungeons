@@ -193,6 +193,12 @@ The project follows an object-oriented design with clear separation of concerns:
 - **Member 2**: Elias - Responsibilities:
 - **Member 3**: Nicholas - Responsibilities:
 - **Member 4**: Tomi - Responsibilities:
+    - Weapons: Different weapon types from ranged to meele
+    - Teleportation: Teleportation ability with the usage of mana
+    - Mana-System: Manabar as UI Feature and Mana regeneration
+    - Health-System: Regenerate health on enemy kills
+    - Debug: Debug output as a UI feature
+    - Bugfix: Edge case interactions between colliders
 
 ### Git Usage
 
@@ -219,7 +225,9 @@ The project follows an object-oriented design with clear separation of concerns:
 - [Specific challenge and how it was overcome]
 
 #### Challenges - Tomi
-- [Specific challenge and how it was overcome]
+- Inconsistent colliders - Checking edge cases when working with collisions
+- Teleporting always to the same location - Randomizing directions and implementing a predefined distance
+- Teleporting causing issues with collider - Refresh collider position
 
 ### Technical Challenges Overcome
 - **Native Library Integration**: Successfully integrated Raylib through Jaylib bindings
